@@ -89,6 +89,7 @@
         "c1": {
           "type": "chapter",
           "settings": {
+            "image": "shopify://shop_images/champagne-768x800.jpg",
             "media_position": "left",
             "eyebrow": "Rilly-la-Montagne",
             "heading": "Where We Belong",
@@ -100,6 +101,7 @@
         "c2": {
           "type": "chapter",
           "settings": {
+            "image": "shopify://shop_images/vigne-champagne-768x800.jpg",
             "media_position": "right",
             "eyebrow": "Our Founder",
             "heading": "Celebrate in Good Company",
@@ -107,40 +109,14 @@
             "button_text": "",
             "button_link": ""
           }
-        },
-        "c3": {
-          "type": "chapter",
-          "settings": {
-            "media_position": "left",
-            "eyebrow": "Savoir-Vivre",
-            "heading": "A Gift to Life",
-            "body": "<p>A glass of de Lossy elevates every moment to another level of joy and sophistication. It is the finishing touch to a life lived beautifully.</p>",
-            "button_text": "",
-            "button_link": ""
-          }
-        },
-        "c4": {
-          "type": "chapter",
-          "settings": {
-            "media_position": "right",
-            "eyebrow": "Sustainability",
-            "heading": "A Source of Enjoyment",
-            "body": "<p>We tend our vines with respect for the land that gives so generously. Through sustainable winemaking and the conservation of nature, we protect the source of all our enjoyment.</p>",
-            "button_text": "",
-            "button_link": ""
-          }
         }
       },
       "block_order": [
         "c1",
-        "c2",
-        "c3",
-        "c4"
+        "c2"
       ],
       "settings": {
-        "subheading": "Our Heritage",
         "heading": "Living Beautifully Since 1862",
-        "section_width": "page-width",
         "color_scheme": "scheme-1",
         "padding-block-start": 160,
         "padding-block-end": 100
