@@ -1,18 +1,17 @@
 {% comment %}
-  Champagne de Lossy — Heritage intro + fixed-background image bands
-  Centered intro (heading + paragraph + Explore link), then full-width image
-  bands. Each band uses background-attachment: fixed (same as the slideshow):
-  the full image stays fixed while the page scrolls over it (parallax).
+  Champagne de Lossy — Image band + heading/text (reference "Where We Belong")
+  A row of images (side by side) whose backgrounds are FIXED while you scroll
+  (position:fixed clipped per panel — robust equivalent of background-attachment:
+  fixed, works on iOS too), with a centered heading + paragraph above or below.
   Block field ids kept (image / heading / body …) for backward compatibility.
 {% endcomment %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<section
-  class="cdl-story color-{{ section.settings.color_scheme }} section section--full-width"
-  style="{% render 'spacing-padding', settings: section.settings %} --cols: {{ section.settings.columns }}; --panel-h: {{ section.settings.panel_height }}px;"
->
+{%- assign content_first = false -%}
+{%- if section.settings.content_position == 'top' -%}{%- assign content_first = true -%}{%- endif -%}
+
+{%- capture cdl_text -%}
   {%- if section.settings.heading != blank or section.settings.intro != blank -%}
-    <div class="page-width cdl-story__intro">
+    <div class="page-width cdl-story__intro cdl-story__intro--{{ section.settings.content_position }}">
       {%- if section.settings.heading != blank -%}
         <h2 class="cdl-story__title">{{ section.settings.heading }}</h2>
       {%- endif -%}
@@ -24,6 +23,14 @@
       {%- endif -%}
     </div>
   {%- endif -%}
+{%- endcapture -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="cdl-story color-{{ section.settings.color_scheme }} section section--full-width"
+  style="{% render 'spacing-padding', settings: section.settings %} --cols: {{ section.settings.columns }}; --panel-h: {{ section.settings.panel_height }}px; --gap: {{ section.settings.image_gap }}px;"
+>
+  {%- if content_first -%}{{ cdl_text }}{%- endif -%}
 
   {%- if section.blocks.size > 0 -%}
     <div class="cdl-story__panels">
@@ -49,45 +56,48 @@
       {%- endfor -%}
     </div>
   {%- endif -%}
+
+  {%- unless content_first -%}{{ cdl_text }}{%- endunless -%}
 </section>
 
 {% stylesheet %}
   .cdl-story { --cdl-gold: #b08d57; }
 
-  /* ── Intro ── */
+  /* ── Heading / text block ── */
   .cdl-story__intro {
     text-align: center;
     max-width: 64rem;
     margin-inline: auto;
-    padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
   }
+  .cdl-story__intro--top { padding-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+  .cdl-story__intro--bottom { padding-top: clamp(2.5rem, 5vw, 4.5rem); }
 
   .cdl-story__title {
     font-family: var(--font-heading--family);
     font-weight: 400;
     text-transform: uppercase;
-    font-size: clamp(2.1rem, 5.5vw, 4.5rem);
-    line-height: 1.04;
-    letter-spacing: 0.01em;
-    margin: 0 0 1.5rem;
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+    line-height: 1.06;
+    letter-spacing: 0.02em;
+    margin: 0 0 1.4rem;
     color: var(--color-foreground-heading, var(--color-foreground));
   }
 
   .cdl-story__intro-body {
     max-width: 44rem;
-    margin: 0 auto 2rem;
+    margin: 0 auto;
     font-family: var(--font-body--family);
     font-size: clamp(0.98rem, 1.1vw, 1.08rem);
     line-height: 1.85;
     color: var(--color-foreground);
     opacity: 0.85;
   }
-
   .cdl-story__intro-body p { margin: 0 0 1rem; }
   .cdl-story__intro-body p:last-child { margin-bottom: 0; }
 
   .cdl-story__explore {
     display: inline-block;
+    margin-top: 1.5rem;
     font-family: var(--font-subheading--family);
     font-size: 0.75rem;
     letter-spacing: 0.25em;
@@ -100,11 +110,12 @@
   }
   .cdl-story__explore:hover { opacity: 0.75; letter-spacing: 0.3em; }
 
-  /* ── Fixed-background image bands (same technique as the slideshow) ── */
+  /* ── Image band — fixed backgrounds, side by side ── */
   .cdl-story__panels {
     display: grid;
-    grid-template-columns: repeat(var(--cols, 1), 1fr);
-    gap: var(--cols-gap, 0px);
+    grid-template-columns: repeat(var(--cols, 2), 1fr);
+    gap: var(--gap, 10px);
+    padding-inline: clamp(10px, 2vw, 28px);
   }
 
   .cdl-story__panel {
@@ -113,9 +124,8 @@
     display: grid;
     place-items: center;
     overflow: hidden;
-    /* clip-path lets us clip a position:fixed background to this panel —
-       a true fixed-background effect that also works on iOS and regardless
-       of ancestor styles (more robust than background-attachment: fixed) */
+    /* clip-path clips the position:fixed background to this panel — a true
+       fixed-background effect that also works on iOS / inside the editor */
     clip-path: inset(0);
   }
 
@@ -132,8 +142,8 @@
   .cdl-story__panel > .cdl-monogram { position: relative; z-index: 1; }
 
   .cdl-story__panel--empty {
-    background-image: linear-gradient(150deg, #f6efe2 0%, #e7d8bf 100%);
-    border-block: 1px solid rgba(176, 141, 87, 0.3);
+    background: linear-gradient(150deg, #f6efe2 0%, #e7d8bf 100%);
+    border: 1px solid rgba(176, 141, 87, 0.3);
   }
 
   .cdl-monogram {
@@ -145,8 +155,6 @@
 
   /* Optional caption overlay */
   .cdl-story__panel-text {
-    position: relative;
-    z-index: 2;
     display: grid;
     align-content: center;
     justify-items: center;
@@ -160,7 +168,7 @@
     position: absolute;
     inset: 0;
     background: rgba(20, 16, 12, 0.3);
-    z-index: 1;
+    z-index: 0;
   }
   .cdl-story__panel-eyebrow {
     font-family: var(--font-subheading--family);
@@ -179,7 +187,7 @@
     max-width: 30rem;
   }
 
-  /* Small screens: normal (non-fixed) cover background to avoid touch-scroll jank */
+  /* Small screens: stack + normal (non-fixed) backgrounds to avoid touch jank */
   @media screen and (max-width: 749px) {
     .cdl-story__panels { grid-template-columns: 1fr; }
     .cdl-story__panel { clip-path: none; min-height: clamp(320px, 70vw, 520px); }
@@ -193,25 +201,35 @@
   "tag": "section",
   "class": "section-cdl-story",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Living Beautifully Since 1862" },
-    { "type": "richtext", "id": "intro", "label": "Intro paragraph", "default": "<p>The first day of summer, an intimate family evening, meeting a new partner… why wait on special occasions when so many moments of life deserve to be celebrated? Nestled on the Montagne de Reims, in the renowned village of Rilly-la-Montagne, our House crafts bright and sophisticated champagnes that take each occasion to another level of pleasure and sophistication.</p>" },
-    { "type": "text", "id": "explore_text", "label": "Link label", "default": "Explore" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Where We Belong" },
+    { "type": "richtext", "id": "intro", "label": "Paragraph", "default": "<p>Our home is more than a prestigious château. For generations, it has been a place of warm gatherings where celebration is our way of life. A lunch in the garden, a toast in the living room, an evening in the dining room — people come together to share a moment.</p>" },
+    { "type": "text", "id": "explore_text", "label": "Link label (optional)" },
     { "type": "url", "id": "explore_link", "label": "Link" },
-    { "type": "header", "content": "Image bands" },
-    { "type": "paragraph", "content": "For the fixed/parallax effect to look right (full image, no zoom), keep this at 1 image per row." },
-    { "type": "range", "id": "columns", "label": "Images per row", "min": 1, "max": 2, "step": 1, "default": 1 },
-    { "type": "range", "id": "panel_height", "label": "Image band height", "min": 320, "max": 1000, "step": 10, "unit": "px", "default": 640 },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Text position",
+      "options": [
+        { "value": "top", "label": "Above images" },
+        { "value": "bottom", "label": "Below images" }
+      ],
+      "default": "bottom"
+    },
+    { "type": "header", "content": "Image band (fixed backgrounds)" },
+    { "type": "range", "id": "columns", "label": "Images per row", "min": 1, "max": 3, "step": 1, "default": 2 },
+    { "type": "range", "id": "panel_height", "label": "Image height", "min": 320, "max": 1000, "step": 10, "unit": "px", "default": 640 },
+    { "type": "range", "id": "image_gap", "label": "Gap between images", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 10 },
     { "type": "checkbox", "id": "show_panel_text", "label": "Show caption text over images", "default": false },
     { "type": "header", "content": "Appearance" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 40 }
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 80 }
   ],
   "blocks": [
     {
       "type": "chapter",
-      "name": "Image band",
+      "name": "Image",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
         {
