@@ -128,8 +128,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* small overflow gives the parallax room to drift without showing gaps */
-    transform: scale(1.1);
+    /* overflow gives the parallax room to drift without showing gaps */
+    transform: scale(1.16);
     will-change: transform;
   }
 
@@ -203,8 +203,12 @@
         if (rect.bottom < -50 || rect.top > vh + 50) continue;
         // progress ≈ -0.5 (panel below) → 0.5 (panel above), 0 at viewport center
         var progress = (rect.top + rect.height / 2 - vh / 2) / vh;
-        var y = (-progress * rect.height * 0.04).toFixed(1);
-        img.style.transform = 'translate3d(0,' + y + 'px,0) scale(1.1)';
+        // scale(1.16) gives ~8% overflow each side; cap the drift just under that
+        var maxShift = rect.height * 0.07;
+        var y = -progress * rect.height * 0.16;
+        if (y > maxShift) y = maxShift;
+        if (y < -maxShift) y = -maxShift;
+        img.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0) scale(1.16)';
       }
     }
 
