@@ -117,6 +117,14 @@
       ],
       "settings": {
         "heading": "Living Beautifully Since 1862",
+        "intro": "<p>Our home is more than a prestigious château. For generations, it has been a place of warm gatherings where celebration is our way of life. A lunch in the garden, a toast in the living room, an evening in the dining room — people come together to share a moment.</p>",
+        "explore_text": "",
+        "explore_link": "",
+        "content_position": "top",
+        "columns": 2,
+        "panel_height": 640,
+        "image_gap": 10,
+        "show_panel_text": false,
         "color_scheme": "scheme-1",
         "padding-block-start": 160,
         "padding-block-end": 100
@@ -160,23 +168,14 @@
         "intro": "<p>Our home is more than a prestigious chateau. For generations, it has been a place of warm gatherings where celebration is our way of life. A lunch in the garden, a toast in the living room, an evening in the dining room, people come together to share a moment.</p>",
         "explore_text": "Explore",
         "explore_link": "",
+        "content_position": "top",
         "columns": 2,
         "panel_height": 560,
+        "image_gap": 10,
         "show_panel_text": false,
         "color_scheme": "",
         "padding-block-start": 96,
         "padding-block-end": 40
-      }
-    },
-    "custom_liquid_MJrkBL": {
-      "type": "custom-liquid",
-      "name": "t:names.custom_liquid",
-      "settings": {
-        "custom_liquid": "<section class=\"parallax-grid\">\n  \n  <div class=\"parallax-item\">\n    <div class=\"parallax-bg bg1\"></div>\n  </div>\n\n  <div class=\"parallax-item\">\n    <div class=\"parallax-bg bg2\"></div>\n  </div>\n\n</section>\n\n<section class=\"content\">\n  <h2>Scroll Content</h2>\n  <p>\n    Add your content here so you can see the parallax effect while scrolling.\n  </p>\n</section>\n<style>\n.parallax-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  padding: 20px;\n}\n\n.parallax-item {\n  height: 700px;\n  overflow: hidden;\n  position: relative;\n}\n\n.parallax-bg {\n  position: absolute;\n  inset: 0;\n\n  background-size: cover;\n  background-position: center;\n  background-repeat: no-repeat;\n\n  /* PARALLAX EFFECT */\n  background-attachment: fixed;\n\n  transform: scale(1.1);\n}\n\n.bg1 {\n  background-image: url('https://cdn.shopify.com/s/files/1/0776/6242/1170/files/champagne-768x800.jpg?v=1780598000');\n}\n\n.bg2 {\n  background-image: url('https://cdn.shopify.com/s/files/1/0776/6242/1170/files/vigne-champagne-768x800.jpg?v=1780597999');\n}\n\n.content {\n  height: 1200px;\n  padding: 100px 20px;\n}\n\n.parallax-item {\n  background-image: url('https://cdn.shopify.com/s/files/1/0776/6242/1170/files/champagne-768x800.jpg?v=1780598000');\n  background-size: cover;\n  background-position: center;\n  background-attachment: fixed;\n  height: 700px;\n}\n</style>",
-        "color_scheme": "",
-        "section_width": "page-width",
-        "padding-block-start": 0,
-        "padding-block-end": 0
       }
     }
   },
@@ -184,7 +183,6 @@
     "custom_slideshow_xWjBQp",
     "cuvees",
     "story",
-    "champagne_story_Bj9iy3",
-    "custom_liquid_MJrkBL"
+    "champagne_story_Bj9iy3"
   ]
 }
