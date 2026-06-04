@@ -1,0 +1,51 @@
+{% comment %}
+  Champagne de Lossy — header intro reveal
+  Mirrors the reference site: the header is hidden on load, then slides +
+  fades down ~1.2s after the page loads. Sticky-safe (no transform remains
+  after the animation), respects reduced-motion. Not rendered in the editor.
+{% endcomment %}
+
+<script>
+  (function () {
+    var d = document.documentElement;
+    // Respect reduced-motion: leave the header visible, do nothing.
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Hide immediately (before the header paints) to avoid a flash.
+    d.classList.add('cdl-header-pre');
+
+    var revealed = false;
+    function reveal() {
+      if (revealed) return;
+      revealed = true;
+      d.classList.remove('cdl-header-pre');
+      d.classList.add('cdl-header-in');
+    }
+
+    // Reveal ~1.2s after full load; hard fallback so it never stays hidden.
+    window.addEventListener('load', function () { setTimeout(reveal, 1100); });
+    setTimeout(reveal, 3000);
+  })();
+</script>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    /* Hidden state before the reveal */
+    html.cdl-header-pre #header-group {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+
+    /* Play once; no fill-mode so the element returns to a clean (transform:none)
+       resting state afterwards — keeps the sticky header working. */
+    html.cdl-header-in #header-group {
+      animation: cdlHeaderReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+
+    @keyframes cdlHeaderReveal {
+      from { opacity: 0; transform: translateY(-100%); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
+</style>
