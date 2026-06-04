@@ -353,29 +353,41 @@
         "p2": {
           "type": "pairing",
           "settings": {
-            "dish": "Grilled scallops with citrus glaze",
-            "note": "Sweet, caramelised scallops echo the cuvée's orange-peel notes."
+            "image": "shopify://shop_images/02_food-1.jpg",
+            "dish": "Oysters, lobster, or scallops",
+            "note": "Particularly those served with a light citrus dressing or a delicate butter sauce. The fresh acidity and the red berry and cherry notes of the Rosé will complement the sweetness of the seafood, while the richness of the wine enhances the delicate flavors of shellfish."
           }
         },
         "p3": {
           "type": "pairing",
           "settings": {
-            "dish": "Prosciutto with melon or figs",
-            "note": "Salt and ripe fruit play against the fresh red-berry character."
+            "image": "shopify://shop_images/03_food-1.jpg",
+            "dish": "Prosciutto, salami, and other cured meats",
+            "note": "Served with fresh figs, strawberries, or even a light honey drizzle. The wine’s richness and structure from the Pinot Noir work beautifully with the savory, salty flavors of charcuterie. The red fruits in the Rosé will enhance the sweetness of figs and strawberries, creating a harmonious contrast."
           }
         },
         "p4": {
           "type": "pairing",
           "settings": {
-            "dish": "Strawberry or raspberry tart",
-            "note": "A patisserie pairing that mirrors the wine's own strawberry tone."
+            "image": "shopify://shop_images/04_food-1.jpg",
+            "dish": "Summer salad",
+            "note": "With mixed greens, goat cheese, and strawberries or a quinoa salad with fresh herbs and pomegranate seeds. The freshness and lightness of these dishes work well with the crispness and red fruit flavors of the Champagne Rosé, while the wine’s richness enhances the earthy flavors of the greens and grains."
           }
         },
         "p5": {
           "type": "pairing",
           "settings": {
-            "dish": "Citrus-infused pastries or sorbet",
-            "note": "Bright citrus desserts lengthen the finish without overwhelming it."
+            "image": "shopify://shop_images/05_food-1.jpg",
+            "dish": "Asian-style pork",
+            "note": "With berry compote with a light hoisin glaze or Asian-style marinated salmon. The wine’s complexity and acidity pair beautifully with the umami and slightly sweet/savory notes of Asian dishes. The fruity character of the Rosé complements both the fish and the pork with the sweet-savory flavors in the sauce."
+          }
+        },
+        "pairing_6YdDdW": {
+          "type": "pairing",
+          "settings": {
+            "image": "shopify://shop_images/06_food-1.jpg",
+            "dish": "Fruit tarts",
+            "note": "If you still have an appetite after the above feast, we may suggest fruit tarts (especially those with berries), strawberry shortcake, or a delicate raspberry soufflé. This Rosé Champagne’s fruit character mirrors the flavors in berry-based desserts, while the wine’s acidity and richness work to balance the sweetness of the pastry, creating a bright and refreshing finish."
           }
         }
       },
@@ -384,12 +396,14 @@
         "p2",
         "p3",
         "p4",
-        "p5"
+        "p5",
+        "pairing_6YdDdW"
       ],
       "settings": {
-        "subheading": "Pairing Suggestions",
-        "heading": "Perfect with the Brut",
-        "intro": "<p>Foods that balance richness and freshness bring out the cuvée's acidity and depth.</p>",
+        "subheading": "",
+        "heading": "Pairing Suggestions",
+        "intro": "<p>This Champagne Rosé offers a beautiful balance of Pinot Noir’s richness and the bright, fresh flavors from Chardonnay and Meunier. Given the wine’s aromatic complexity, fruit-forward profile, and elegant richness, here are a few pairing suggestions that would complement its nuances:</p>",
+        "intro_image": "shopify://shop_images/01_food.jpg",
         "section_width": "full-width",
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
