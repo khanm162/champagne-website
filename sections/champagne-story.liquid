@@ -40,7 +40,14 @@
           {{ block.shopify_attributes }}
         >
           {%- if block.settings.image != blank -%}
-            <div class="cdl-story__panel-bg" style="background-image: url('{{ block.settings.image | image_url: width: 2400 }}');"></div>
+            <img
+              class="cdl-story__panel-img"
+              src="{{ block.settings.image | image_url: width: 1800 }}"
+              alt="{{ block.settings.heading | escape }}"
+              loading="lazy"
+              width="1800"
+              height="1200"
+            >
           {%- else -%}
             <span class="cdl-monogram" aria-hidden="true">DL</span>
           {%- endif -%}
@@ -124,18 +131,16 @@
     display: grid;
     place-items: center;
     overflow: hidden;
-    /* clip-path clips the position:fixed background to this panel — a true
-       fixed-background effect that also works on iOS / inside the editor */
-    clip-path: inset(0);
   }
 
-  .cdl-story__panel-bg {
-    position: fixed;
+  /* Full, framed image (object-fit: cover) — shows the whole scene, no zoom */
+  .cdl-story__panel-img {
+    position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .cdl-story__panel > .cdl-story__panel-text,
@@ -190,8 +195,7 @@
   /* Small screens: stack + normal (non-fixed) backgrounds to avoid touch jank */
   @media screen and (max-width: 749px) {
     .cdl-story__panels { grid-template-columns: 1fr; }
-    .cdl-story__panel { clip-path: none; min-height: clamp(320px, 70vw, 520px); }
-    .cdl-story__panel-bg { position: absolute; }
+    .cdl-story__panel { min-height: clamp(320px, 70vw, 520px); }
   }
 {% endstylesheet %}
 
@@ -213,7 +217,7 @@
         { "value": "top", "label": "Above images" },
         { "value": "bottom", "label": "Below images" }
       ],
-      "default": "bottom"
+      "default": "top"
     },
     { "type": "header", "content": "Image band (fixed backgrounds)" },
     { "type": "range", "id": "columns", "label": "Images per row", "min": 1, "max": 3, "step": 1, "default": 2 },
