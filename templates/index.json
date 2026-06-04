@@ -67,12 +67,15 @@
         "rose",
         "brut"
       ],
+      "custom_css": [
+        ".section-cdl-cuvees {padding-top: 100px; padding-bottom: 100px;}"
+      ],
       "settings": {
         "subheading": "The Collection",
         "heading": "Discover Our Champagne",
         "description": "<p>Two cuvées, crafted with the same patience and care that has defined our maison for over a century.</p>",
         "columns": 2,
-        "cta_text": "Buy Now — USA",
+        "cta_text": "",
         "cta_link": "shopify://products/de-lossy-rose",
         "section_width": "page-width",
         "color_scheme": "scheme-1",
