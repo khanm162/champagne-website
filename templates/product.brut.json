@@ -375,41 +375,41 @@
         "p2": {
           "type": "pairing",
           "settings": {
-            "image": "shopify://shop_images/02_food-1.jpg",
-            "dish": "Oysters, lobster, or scallops",
-            "note": "Particularly those served with a light citrus dressing or a delicate butter sauce. The fresh acidity and the red berry and cherry notes of the Rosé will complement the sweetness of the seafood, while the richness of the wine enhances the delicate flavors of shellfish."
+            "image": "shopify://shop_images/02_food.jpg",
+            "dish": "Lobster with a citrus beurre blanc",
+            "note": "The bright citrus notes in the wine will play beautifully with the buttery richness of the lobster and the fresh acidity of the beurre blanc."
           }
         },
         "p3": {
           "type": "pairing",
           "settings": {
-            "image": "shopify://shop_images/03_food-1.jpg",
-            "dish": "Prosciutto, salami, and other cured meats",
-            "note": "Served with fresh figs, strawberries, or even a light honey drizzle. The wine’s richness and structure from the Pinot Noir work beautifully with the savory, salty flavors of charcuterie. The red fruits in the Rosé will enhance the sweetness of figs and strawberries, creating a harmonious contrast."
+            "image": "shopify://shop_images/03_food.jpg",
+            "dish": "Grilled scallops with citrus glaze",
+            "note": "The fresh, delicate flavors of the scallops will harmonize with the wine’s fruit-forward profile, while the citrus glaze adds a refreshing contrast that mirrors the clementine and orange peel aromas in the wine."
           }
         },
         "p4": {
           "type": "pairing",
           "settings": {
-            "image": "shopify://shop_images/04_food-1.jpg",
-            "dish": "Summer salad",
-            "note": "With mixed greens, goat cheese, and strawberries or a quinoa salad with fresh herbs and pomegranate seeds. The freshness and lightness of these dishes work well with the crispness and red fruit flavors of the Champagne Rosé, while the wine’s richness enhances the earthy flavors of the greens and grains."
+            "image": "shopify://shop_images/04_food.jpg",
+            "dish": "Prosciutto with melon or figs",
+            "note": "The sweet, salty combination of prosciutto and fruit complements the wine’s red berry and clementine notes, with the Meunier’s aromatic complexity offering additional depth."
           }
         },
         "p5": {
           "type": "pairing",
           "settings": {
-            "image": "shopify://shop_images/05_food-1.jpg",
-            "dish": "Asian-style pork",
-            "note": "With berry compote with a light hoisin glaze or Asian-style marinated salmon. The wine’s complexity and acidity pair beautifully with the umami and slightly sweet/savory notes of Asian dishes. The fruity character of the Rosé complements both the fish and the pork with the sweet-savory flavors in the sauce."
+            "image": "shopify://shop_images/05_food.jpg",
+            "dish": "Strawberry or raspberry tart",
+            "note": "The fresh red berry notes in the wine would pair harmoniously with a fruit-based dessert. A strawberry tart with a crisp, buttery crust would beautifully mirror the wine’s fresh, light profile."
           }
         },
         "pairing_6YdDdW": {
           "type": "pairing",
           "settings": {
-            "image": "shopify://shop_images/06_food-1.jpg",
-            "dish": "Fruit tarts",
-            "note": "If you still have an appetite after the above feast, we may suggest fruit tarts (especially those with berries), strawberry shortcake, or a delicate raspberry soufflé. This Rosé Champagne’s fruit character mirrors the flavors in berry-based desserts, while the wine’s acidity and richness work to balance the sweetness of the pastry, creating a bright and refreshing finish."
+            "image": "shopify://shop_images/06_food.jpg",
+            "dish": "Citrus-infused pastries or sorbet",
+            "note": "Given the orange peel and clementine aromas in the wine, a citrus-based dessert like an orange blossom sorbet or a lemon meringue tart would be an exquisite match."
           }
         }
       },
@@ -423,8 +423,8 @@
       "settings": {
         "subheading": "",
         "heading": "Pairing Suggestions",
-        "intro": "<p>This Champagne Rosé offers a beautiful balance of Pinot Noir’s richness and the bright, fresh flavors from Chardonnay and Meunier. Given the wine’s aromatic complexity, fruit-forward profile, and elegant richness, here are a few pairing suggestions that would complement its nuances:</p>",
-        "intro_image": "shopify://shop_images/01_food.jpg",
+        "intro": "<p>For a wine as complex and layered as this 2021 blend, pairing it with food that can both complement and elevate its flavors is key. Given the freshness of the red berries, citrus notes, and the complexity from the aged reserve wines, we recommend dishes that have a balance of richness and freshness, as well as a bit of contrast to highlight the wine’s vibrant acidity and depth.</p>",
+        "intro_image": "shopify://shop_images/wine-pairing.jpg",
         "section_width": "page-width",
         "color_scheme": "scheme-1",
         "padding-block-start": 60,
