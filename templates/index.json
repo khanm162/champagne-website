@@ -38,6 +38,18 @@
     "cuvees": {
       "type": "champagne-cuvees",
       "blocks": {
+        "rose": {
+          "type": "cuvee",
+          "settings": {
+            "image": "shopify://shop_images/04_bottle_table-800x956.jpg",
+            "badge": "Brut",
+            "name": "De Lossy Brut",
+            "tasting_notes": "T22 – Tirage of the 161ST year",
+            "price": "$0.00",
+            "button_text": "View Brut",
+            "button_link": "shopify://products/de-lossy-brut"
+          }
+        },
         "brut": {
           "type": "cuvee",
           "settings": {
@@ -49,22 +61,11 @@
             "button_text": "View Rosé",
             "button_link": "/pages/shop"
           }
-        },
-        "rose": {
-          "type": "cuvee",
-          "settings": {
-            "badge": "Rosé",
-            "name": "Cuvée Rosé",
-            "tasting_notes": "Delicate red berries and rose petal, elegant and beautifully balanced.",
-            "price": "$110.00",
-            "button_text": "View Cuvée",
-            "button_link": "/pages/shop"
-          }
         }
       },
       "block_order": [
-        "brut",
-        "rose"
+        "rose",
+        "brut"
       ],
       "settings": {
         "subheading": "The Collection",
