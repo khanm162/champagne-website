@@ -72,7 +72,7 @@
         "description": "<p>Two cuvées, crafted with the same patience and care that has defined our maison for over a century.</p>",
         "columns": 2,
         "cta_text": "Buy Now — USA",
-        "cta_link": "/pages/shop",
+        "cta_link": "shopify://products/de-lossy-rose",
         "section_width": "page-width",
         "color_scheme": "scheme-1",
         "padding-block-start": 160,
