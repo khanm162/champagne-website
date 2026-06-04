@@ -35,6 +35,50 @@
         "slide_speed": 6
       }
     },
+    "cuvees": {
+      "type": "champagne-cuvees",
+      "blocks": {
+        "brut": {
+          "type": "cuvee",
+          "settings": {
+            "image": "shopify://shop_images/08_rose-800x956.jpg",
+            "badge": "Rose",
+            "name": "De Lossy rosé",
+            "tasting_notes": "T22 – Tirage of the 161ST year",
+            "price": "$0.00",
+            "button_text": "View Cuvée",
+            "button_link": "/pages/shop"
+          }
+        },
+        "rose": {
+          "type": "cuvee",
+          "settings": {
+            "badge": "Rosé",
+            "name": "Cuvée Rosé",
+            "tasting_notes": "Delicate red berries and rose petal, elegant and beautifully balanced.",
+            "price": "$110.00",
+            "button_text": "View Cuvée",
+            "button_link": "/pages/shop"
+          }
+        }
+      },
+      "block_order": [
+        "brut",
+        "rose"
+      ],
+      "settings": {
+        "subheading": "The Collection",
+        "heading": "Discover Our Champagne",
+        "description": "<p>Two cuvées, crafted with the same patience and care that has defined our maison for over a century.</p>",
+        "columns": 2,
+        "cta_text": "Buy Now — USA",
+        "cta_link": "/pages/shop",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 96,
+        "padding-block-end": 96
+      }
+    },
     "story": {
       "type": "champagne-story",
       "blocks": {
@@ -98,49 +142,6 @@
         "padding-block-end": 100
       }
     },
-    "cuvees": {
-      "type": "champagne-cuvees",
-      "blocks": {
-        "brut": {
-          "type": "cuvee",
-          "settings": {
-            "badge": "Brut",
-            "name": "Cuvée Brut",
-            "tasting_notes": "Citrus, brioche and white flowers, with a fine and persistent mousse.",
-            "price": "$95.00",
-            "button_text": "View Cuvée",
-            "button_link": "/pages/shop"
-          }
-        },
-        "rose": {
-          "type": "cuvee",
-          "settings": {
-            "badge": "Rosé",
-            "name": "Cuvée Rosé",
-            "tasting_notes": "Delicate red berries and rose petal, elegant and beautifully balanced.",
-            "price": "$110.00",
-            "button_text": "View Cuvée",
-            "button_link": "/pages/shop"
-          }
-        }
-      },
-      "block_order": [
-        "brut",
-        "rose"
-      ],
-      "settings": {
-        "subheading": "The Collection",
-        "heading": "Discover Our Champagne",
-        "description": "<p>Two cuvées, crafted with the same patience and care that has defined our maison for over a century.</p>",
-        "columns": 2,
-        "cta_text": "Buy Now — USA",
-        "cta_link": "/pages/shop",
-        "section_width": "page-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 96,
-        "padding-block-end": 96
-      }
-    },
     "pillars": {
       "type": "champagne-pillars",
       "blocks": {
@@ -194,8 +195,8 @@
   },
   "order": [
     "custom_slideshow_xWjBQp",
-    "story",
     "cuvees",
+    "story",
     "pillars"
   ]
 }
