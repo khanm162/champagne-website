@@ -128,6 +128,7 @@
         "chapter_eWxYH4": {
           "type": "chapter",
           "settings": {
+            "image": "shopify://shop_images/04_moulage-768x800.jpg",
             "media_position": "left",
             "eyebrow": "",
             "heading": "",
@@ -139,6 +140,7 @@
         "chapter_e6w7Vn": {
           "type": "chapter",
           "settings": {
+            "image": "shopify://shop_images/05_stares-768x800.jpg",
             "media_position": "left",
             "eyebrow": "",
             "heading": "",
@@ -154,8 +156,8 @@
       ],
       "name": "Champagne Story",
       "settings": {
-        "heading": "Living Beautifully Since 1862",
-        "intro": "<p>The first day of summer, an intimate family evening, meeting a new partner… why wait on special occasions when so many moments of life deserve to be celebrated? Nestled on the Montagne de Reims, in the renowned village of Rilly-la-Montagne, our House crafts bright and sophisticated champagnes that take each occasion to another level of pleasure and sophistication.</p>",
+        "heading": "WHERE WE BELONG",
+        "intro": "<p>Our home is more than a prestigious chateau. For generations, it has been a place of warm gatherings where celebration is our way of life. A lunch in the garden, a toast in the living room, an evening in the dining room, people come together to share a moment.</p>",
         "explore_text": "Explore",
         "explore_link": "",
         "columns": 2,
