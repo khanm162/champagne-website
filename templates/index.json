@@ -164,11 +164,20 @@
         "padding-block-start": 72,
         "padding-block-end": 72
       }
+    },
+    "custom_slideshow_xWjBQp": {
+      "type": "custom-slideshow",
+      "name": "Custom Slideshow",
+      "settings": {
+        "autoplay": true,
+        "slide_speed": 6
+      }
     }
   },
   "order": [
     "story",
     "cuvees",
-    "pillars"
+    "pillars",
+    "custom_slideshow_xWjBQp"
   ]
 }
