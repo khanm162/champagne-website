@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -6,6 +15,7 @@
         "slide_1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/delossy-champagne.jpg",
             "small_text": "Champagne de Lossy",
             "title": "Living Beautifully Since 1862",
             "description": "From our village of Rilly-la-Montagne in the Montagne de Reims, we craft champagne for life's most beautiful moments.",
@@ -22,19 +32,12 @@
             "button_text": "Shop the Rosé",
             "button_link": "/pages/shop"
           }
-        },
-        "slide_3": {
-          "type": "slide",
-          "settings": {
-            "small_text": "Cuvée Brut",
-            "title": "The Art of Fine Champagne",
-            "description": "Citrus, brioche and white flowers, aged patiently in our cellars for remarkable depth and finesse.",
-            "button_text": "Shop the Brut",
-            "button_link": "/pages/shop"
-          }
         }
       },
-      "block_order": ["slide_1", "slide_2", "slide_3"],
+      "block_order": [
+        "slide_1",
+        "slide_2"
+      ],
       "settings": {
         "subheading": "Maison de Champagne",
         "heading": "",
@@ -54,7 +57,9 @@
             "media_position": "left",
             "eyebrow": "Rilly-la-Montagne",
             "heading": "Where We Belong",
-            "body": "<p>Our château is a place of warm gatherings — where long tables, candlelight and good company turn an ordinary evening into a celebration. Hospitality has always been at the heart of who we are.</p>"
+            "body": "<p>Our château is a place of warm gatherings — where long tables, candlelight and good company turn an ordinary evening into a celebration. Hospitality has always been at the heart of who we are.</p>",
+            "button_text": "",
+            "button_link": ""
           }
         },
         "c2": {
@@ -63,7 +68,9 @@
             "media_position": "right",
             "eyebrow": "Our Founder",
             "heading": "Celebrate in Good Company",
-            "body": "<p>Founded on an entrepreneurial spirit and a belief in shared success, Champagne de Lossy has always been about community — raising a glass to the people and the moments that matter most.</p>"
+            "body": "<p>Founded on an entrepreneurial spirit and a belief in shared success, Champagne de Lossy has always been about community — raising a glass to the people and the moments that matter most.</p>",
+            "button_text": "",
+            "button_link": ""
           }
         },
         "c3": {
@@ -72,7 +79,9 @@
             "media_position": "left",
             "eyebrow": "Savoir-Vivre",
             "heading": "A Gift to Life",
-            "body": "<p>A glass of de Lossy elevates every moment to another level of joy and sophistication. It is the finishing touch to a life lived beautifully.</p>"
+            "body": "<p>A glass of de Lossy elevates every moment to another level of joy and sophistication. It is the finishing touch to a life lived beautifully.</p>",
+            "button_text": "",
+            "button_link": ""
           }
         },
         "c4": {
@@ -81,11 +90,18 @@
             "media_position": "right",
             "eyebrow": "Sustainability",
             "heading": "A Source of Enjoyment",
-            "body": "<p>We tend our vines with respect for the land that gives so generously. Through sustainable winemaking and the conservation of nature, we protect the source of all our enjoyment.</p>"
+            "body": "<p>We tend our vines with respect for the land that gives so generously. Through sustainable winemaking and the conservation of nature, we protect the source of all our enjoyment.</p>",
+            "button_text": "",
+            "button_link": ""
           }
         }
       },
-      "block_order": ["c1", "c2", "c3", "c4"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
       "settings": {
         "subheading": "Our Heritage",
         "heading": "Living Beautifully Since 1862",
@@ -121,7 +137,10 @@
           }
         }
       },
-      "block_order": ["brut", "rose"],
+      "block_order": [
+        "brut",
+        "rose"
+      ],
       "settings": {
         "subheading": "The Collection",
         "heading": "Discover Our Champagne",
@@ -171,7 +190,12 @@
           }
         }
       },
-      "block_order": ["p1", "p2", "p3", "p4"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
       "settings": {
         "heading": "",
         "section_width": "full-width",
@@ -181,5 +205,10 @@
       }
     }
   },
-  "order": ["hero", "story", "cuvees", "pillars"]
+  "order": [
+    "hero",
+    "story",
+    "cuvees",
+    "pillars"
+  ]
 }
