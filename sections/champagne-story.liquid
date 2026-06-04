@@ -30,10 +30,11 @@
       {%- for block in section.blocks -%}
         <div
           class="cdl-story__panel{% if block.settings.image == blank %} cdl-story__panel--empty{% endif %}"
-          {% if block.settings.image != blank %}style="background-image: url('{{ block.settings.image | image_url: width: 2400 }}');"{% endif %}
           {{ block.shopify_attributes }}
         >
-          {%- if block.settings.image == blank -%}
+          {%- if block.settings.image != blank -%}
+            <div class="cdl-story__panel-bg" style="background-image: url('{{ block.settings.image | image_url: width: 2400 }}');"></div>
+          {%- else -%}
             <span class="cdl-monogram" aria-hidden="true">DL</span>
           {%- endif -%}
 
@@ -112,12 +113,23 @@
     display: grid;
     place-items: center;
     overflow: hidden;
+    /* clip-path lets us clip a position:fixed background to this panel —
+       a true fixed-background effect that also works on iOS and regardless
+       of ancestor styles (more robust than background-attachment: fixed) */
+    clip-path: inset(0);
+  }
+
+  .cdl-story__panel-bg {
+    position: fixed;
+    inset: 0;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    /* fixed = the full image stays put while the page scrolls over it */
-    background-attachment: fixed;
+    z-index: 0;
   }
+
+  .cdl-story__panel > .cdl-story__panel-text,
+  .cdl-story__panel > .cdl-monogram { position: relative; z-index: 1; }
 
   .cdl-story__panel--empty {
     background-image: linear-gradient(150deg, #f6efe2 0%, #e7d8bf 100%);
@@ -167,13 +179,11 @@
     max-width: 30rem;
   }
 
-  /* iOS / small screens ignore background-attachment: fixed — fall back to scroll */
+  /* Small screens: normal (non-fixed) cover background to avoid touch-scroll jank */
   @media screen and (max-width: 749px) {
     .cdl-story__panels { grid-template-columns: 1fr; }
-    .cdl-story__panel {
-      background-attachment: scroll;
-      min-height: clamp(320px, 70vw, 520px);
-    }
+    .cdl-story__panel { clip-path: none; min-height: clamp(320px, 70vw, 520px); }
+    .cdl-story__panel-bg { position: absolute; }
   }
 {% endstylesheet %}
 
