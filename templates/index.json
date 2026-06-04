@@ -75,8 +75,8 @@
         "cta_link": "/pages/shop",
         "section_width": "page-width",
         "color_scheme": "scheme-1",
-        "padding-block-start": 96,
-        "padding-block-end": 96
+        "padding-block-start": 160,
+        "padding-block-end": 160
       }
     },
     "story": {
