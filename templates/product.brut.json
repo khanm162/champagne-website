@@ -401,6 +401,32 @@
         "padding-block-end": 56
       }
     },
+    "custom_slideshow_eqJfYn": {
+      "type": "custom-slideshow",
+      "blocks": {
+        "slide_tzWpVG": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/12_glass_macro.jpg",
+            "subheading": "",
+            "heading": "The art of pleasing",
+            "description": "",
+            "button_text": "",
+            "button_link": "",
+            "button_text_2": "",
+            "button_link_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_tzWpVG"
+      ],
+      "name": "Custom Slideshow",
+      "settings": {
+        "autoplay": true,
+        "slide_speed": 6
+      }
+    },
     "recommendations": {
       "type": "product-recommendations",
       "blocks": {
@@ -542,15 +568,15 @@
         "padding-block-end": 48
       }
     },
-    "custom_slideshow_eqJfYn": {
+    "custom_slideshow_KztxdG": {
       "type": "custom-slideshow",
       "blocks": {
-        "slide_tzWpVG": {
+        "slide_ciL7AC": {
           "type": "slide",
           "settings": {
-            "slide_image": "shopify://shop_images/12_glass_macro.jpg",
+            "slide_image": "shopify://shop_images/01_bootle.jpg",
             "subheading": "",
-            "heading": "The art of pleasing",
+            "heading": "A toast to life",
             "description": "",
             "button_text": "",
             "button_link": "",
@@ -560,7 +586,7 @@
         }
       },
       "block_order": [
-        "slide_tzWpVG"
+        "slide_ciL7AC"
       ],
       "name": "Custom Slideshow",
       "settings": {
@@ -570,6 +596,7 @@
     }
   },
   "order": [
+    "custom_slideshow_KztxdG",
     "main",
     "story",
     "pairings",
