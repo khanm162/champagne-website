@@ -395,7 +395,7 @@
         "heading": "Pairing Suggestions",
         "intro": "<p>This Champagne Rosé offers a beautiful balance of Pinot Noir’s richness and the bright, fresh flavors from Chardonnay and Meunier. Given the wine’s aromatic complexity, fruit-forward profile, and elegant richness, here are a few pairing suggestions that would complement its nuances:</p>",
         "intro_image": "shopify://shop_images/01_food.jpg",
-        "section_width": "full-width",
+        "section_width": "page-width",
         "color_scheme": "scheme-1",
         "padding-block-start": 60,
         "padding-block-end": 56
