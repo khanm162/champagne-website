@@ -30,8 +30,8 @@
         "slide_ciL7AC"
       ],
       "custom_css": [
-        "h1 {text-transform: uppercase; font-size: 60px;}",
-        ".pf-ss-content {justify-content: center;}"
+        "@media (max-width:767px){h1 {text-transform: uppercase; font-size: 40px;}.pf-ss-content {justify-content: center;align-items: center;margin-top:70px;}}",
+        "@media (min-width:767px){h1 {text-transform: uppercase; font-size: 60px;}.pf-ss-content {justify-content: center;}}"
       ],
       "name": "Custom Slideshow",
       "settings": {
