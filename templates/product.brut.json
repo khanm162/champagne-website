@@ -314,6 +314,7 @@
         },
         "tasting": {
           "type": "chapter",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/01_food.jpg",
             "media_position": "left",
@@ -344,8 +345,9 @@
         "p1": {
           "type": "pairing",
           "settings": {
-            "dish": "Lobster with citrus beurre blanc",
-            "note": "The richness of the lobster meets the wine's bright acidity for a clean, elegant finish."
+            "image": "shopify://shop_images/01_food.jpg",
+            "dish": "Pairing suggestions",
+            "note": "This Champagne Rosé offers a beautiful balance of Pinot Noir’s richness and the bright, fresh flavors from Chardonnay and Meunier. Given the wine’s aromatic complexity, fruit-forward profile, and elegant richness, here are a few pairing suggestions that would complement its nuances:"
           }
         },
         "p2": {
@@ -377,7 +379,13 @@
           }
         }
       },
-      "block_order": ["p1", "p2", "p3", "p4", "p5"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5"
+      ],
       "settings": {
         "subheading": "Pairing Suggestions",
         "heading": "Perfect with the Brut",
