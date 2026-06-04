@@ -1,15 +1,15 @@
 {% comment %}
-  Champagne de Lossy — Heritage intro + pinned (sticky) image band
-  Centered intro (heading + paragraph + Explore link), then a row of image
-  panels. Each image is framed (object-fit: cover, no zoom) and PINS in place
-  while you scroll through its track, then scrolls away — a "hold then scroll".
+  Champagne de Lossy — Heritage intro + fixed-background image bands
+  Centered intro (heading + paragraph + Explore link), then full-width image
+  bands. Each band uses background-attachment: fixed (same as the slideshow):
+  the full image stays fixed while the page scrolls over it (parallax).
   Block field ids kept (image / heading / body …) for backward compatibility.
 {% endcomment %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   class="cdl-story color-{{ section.settings.color_scheme }} section section--full-width"
-  style="{% render 'spacing-padding', settings: section.settings %} --cols: {{ section.settings.columns }}; --panel-h: {{ section.settings.panel_height }}px; --pin: {{ section.settings.pin_amount }}vh;"
+  style="{% render 'spacing-padding', settings: section.settings %} --cols: {{ section.settings.columns }}; --panel-h: {{ section.settings.panel_height }}px;"
 >
   {%- if section.settings.heading != blank or section.settings.intro != blank -%}
     <div class="page-width cdl-story__intro">
@@ -28,29 +28,22 @@
   {%- if section.blocks.size > 0 -%}
     <div class="cdl-story__panels">
       {%- for block in section.blocks -%}
-        <div class="cdl-story__panel" {{ block.shopify_attributes }}>
-          <div class="cdl-story__panel-sticky{% if block.settings.image == blank %} cdl-story__panel--empty{% endif %}">
-            {%- if block.settings.image != blank -%}
-              <img
-                class="cdl-story__panel-img"
-                src="{{ block.settings.image | image_url: width: 1800 }}"
-                alt="{{ block.settings.heading | escape }}"
-                loading="lazy"
-                width="1800"
-                height="1200"
-              >
-            {%- else -%}
-              <span class="cdl-monogram" aria-hidden="true">DL</span>
-            {%- endif -%}
+        <div
+          class="cdl-story__panel{% if block.settings.image == blank %} cdl-story__panel--empty{% endif %}"
+          {% if block.settings.image != blank %}style="background-image: url('{{ block.settings.image | image_url: width: 2400 }}');"{% endif %}
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.image == blank -%}
+            <span class="cdl-monogram" aria-hidden="true">DL</span>
+          {%- endif -%}
 
-            {%- if section.settings.show_panel_text and block.settings.heading != blank -%}
-              <div class="cdl-story__panel-text">
-                {%- if block.settings.eyebrow != blank -%}<p class="cdl-story__panel-eyebrow">{{ block.settings.eyebrow }}</p>{%- endif -%}
-                <h3 class="cdl-story__panel-title">{{ block.settings.heading }}</h3>
-                {%- if block.settings.body != blank -%}<div class="cdl-story__panel-body">{{ block.settings.body }}</div>{%- endif -%}
-              </div>
-            {%- endif -%}
-          </div>
+          {%- if section.settings.show_panel_text and block.settings.heading != blank -%}
+            <div class="cdl-story__panel-text">
+              {%- if block.settings.eyebrow != blank -%}<p class="cdl-story__panel-eyebrow">{{ block.settings.eyebrow }}</p>{%- endif -%}
+              <h3 class="cdl-story__panel-title">{{ block.settings.heading }}</h3>
+              {%- if block.settings.body != blank -%}<div class="cdl-story__panel-body">{{ block.settings.body }}</div>{%- endif -%}
+            </div>
+          {%- endif -%}
         </div>
       {%- endfor -%}
     </div>
@@ -106,41 +99,29 @@
   }
   .cdl-story__explore:hover { opacity: 0.75; letter-spacing: 0.3em; }
 
-  /* ── Pinned image band ── */
+  /* ── Fixed-background image bands (same technique as the slideshow) ── */
   .cdl-story__panels {
     display: grid;
-    grid-template-columns: repeat(var(--cols, 2), 1fr);
-    gap: 10px;
-    padding-inline: clamp(10px, 2vw, 28px);
-    align-items: start;
+    grid-template-columns: repeat(var(--cols, 1), 1fr);
+    gap: var(--cols-gap, 0px);
   }
 
-  /* The track: taller than the visible image so the image can pin, then release */
   .cdl-story__panel {
     position: relative;
-    min-height: calc(var(--panel-h, 560px) + var(--pin, 40vh));
-  }
-
-  /* The visible, framed image — pins while the track scrolls past */
-  .cdl-story__panel-sticky {
-    position: sticky;
-    top: max(0px, calc((100vh - var(--panel-h, 560px)) / 2));
-    height: var(--panel-h, 560px);
-    overflow: hidden;
+    min-height: var(--panel-h, 600px);
     display: grid;
     place-items: center;
-  }
-
-  .cdl-story__panel-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    /* fixed = the full image stays put while the page scrolls over it */
+    background-attachment: fixed;
   }
 
   .cdl-story__panel--empty {
-    background: linear-gradient(150deg, #f6efe2 0%, #e7d8bf 100%);
-    border: 1px solid rgba(176, 141, 87, 0.3);
+    background-image: linear-gradient(150deg, #f6efe2 0%, #e7d8bf 100%);
+    border-block: 1px solid rgba(176, 141, 87, 0.3);
   }
 
   .cdl-monogram {
@@ -152,8 +133,7 @@
 
   /* Optional caption overlay */
   .cdl-story__panel-text {
-    position: absolute;
-    inset: 0;
+    position: relative;
     z-index: 2;
     display: grid;
     align-content: center;
@@ -161,8 +141,14 @@
     text-align: center;
     padding: 2rem;
     color: #fff;
-    text-shadow: 0 1px 24px rgba(0, 0, 0, 0.4);
-    background: rgba(20, 16, 12, 0.28);
+    text-shadow: 0 1px 24px rgba(0, 0, 0, 0.45);
+  }
+  .cdl-story__panel:not(.cdl-story__panel--empty):has(.cdl-story__panel-text)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 16, 12, 0.3);
+    z-index: 1;
   }
   .cdl-story__panel-eyebrow {
     font-family: var(--font-subheading--family);
@@ -181,19 +167,16 @@
     max-width: 30rem;
   }
 
-  /* On small screens (and reduced motion) don't pin — just stack framed images */
+  /* iOS ignores background-attachment: fixed, and reduced-motion users opt out */
   @media (prefers-reduced-motion: reduce) {
-    .cdl-story__panel { min-height: 0; }
-    .cdl-story__panel-sticky { position: static; top: auto; }
+    .cdl-story__panel { background-attachment: scroll; }
   }
 
   @media screen and (max-width: 749px) {
     .cdl-story__panels { grid-template-columns: 1fr; }
-    .cdl-story__panel { min-height: 0; }
-    .cdl-story__panel-sticky {
-      position: static;
-      top: auto;
-      height: clamp(300px, 60vw, 440px);
+    .cdl-story__panel {
+      background-attachment: scroll;
+      min-height: clamp(320px, 70vw, 520px);
     }
   }
 {% endstylesheet %}
@@ -208,10 +191,10 @@
     { "type": "richtext", "id": "intro", "label": "Intro paragraph", "default": "<p>The first day of summer, an intimate family evening, meeting a new partner… why wait on special occasions when so many moments of life deserve to be celebrated? Nestled on the Montagne de Reims, in the renowned village of Rilly-la-Montagne, our House crafts bright and sophisticated champagnes that take each occasion to another level of pleasure and sophistication.</p>" },
     { "type": "text", "id": "explore_text", "label": "Link label", "default": "Explore" },
     { "type": "url", "id": "explore_link", "label": "Link" },
-    { "type": "header", "content": "Image band" },
-    { "type": "range", "id": "columns", "label": "Images per row", "min": 1, "max": 3, "step": 1, "default": 2 },
-    { "type": "range", "id": "panel_height", "label": "Image height", "min": 300, "max": 820, "step": 10, "unit": "px", "default": 560 },
-    { "type": "range", "id": "pin_amount", "label": "Hold distance (how long the image stays pinned)", "min": 0, "max": 90, "step": 5, "unit": "vh", "default": 40 },
+    { "type": "header", "content": "Image bands" },
+    { "type": "paragraph", "content": "For the fixed/parallax effect to look right (full image, no zoom), keep this at 1 image per row." },
+    { "type": "range", "id": "columns", "label": "Images per row", "min": 1, "max": 2, "step": 1, "default": 1 },
+    { "type": "range", "id": "panel_height", "label": "Image band height", "min": 320, "max": 1000, "step": 10, "unit": "px", "default": 640 },
     { "type": "checkbox", "id": "show_panel_text", "label": "Show caption text over images", "default": false },
     { "type": "header", "content": "Appearance" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
@@ -222,13 +205,13 @@
   "blocks": [
     {
       "type": "chapter",
-      "name": "Image panel",
+      "name": "Image band",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
         {
           "type": "select",
           "id": "media_position",
-          "label": "Image position (unused in band layout)",
+          "label": "Image position (unused)",
           "options": [
             { "value": "left", "label": "Left" },
             { "value": "right", "label": "Right" }
