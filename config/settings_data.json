@@ -9,10 +9,11 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/delossy.svg",
+    "logo": "shopify://shop_images/logo-delossy.svg",
+    "logo_inverse": "shopify://shop_images/delossy.svg",
     "logo_height": 58,
     "logo_height_mobile": 57,
-    "favicon": "shopify://shop_images/delossy.svg",
+    "favicon": "shopify://shop_images/logo-delossy.svg",
     "type_body_font": "lato_n4",
     "type_subheading_font": "lato_n4",
     "type_heading_font": "cormorant_n4",
@@ -317,9 +318,9 @@
       "scheme-58084d4c-a86e-4d0a-855e-a0966e5043f7": {
         "settings": {
           "background": "rgba(0,0,0,0)",
-          "foreground_heading": "#ffffff",
-          "foreground": "#ffffff",
-          "primary": "#f5f1eb",
+          "foreground_heading": "#000000",
+          "foreground": "#000000",
+          "primary": "#000000",
           "primary_hover": "#00000087",
           "border": "#e6e6e6",
           "shadow": "#000000",
