@@ -121,11 +121,57 @@
         "padding-block-start": 160,
         "padding-block-end": 100
       }
+    },
+    "champagne_story_Bj9iy3": {
+      "type": "champagne-story",
+      "blocks": {
+        "chapter_eWxYH4": {
+          "type": "chapter",
+          "settings": {
+            "media_position": "left",
+            "eyebrow": "",
+            "heading": "",
+            "body": "",
+            "button_text": "",
+            "button_link": ""
+          }
+        },
+        "chapter_e6w7Vn": {
+          "type": "chapter",
+          "settings": {
+            "media_position": "left",
+            "eyebrow": "",
+            "heading": "",
+            "body": "",
+            "button_text": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "chapter_eWxYH4",
+        "chapter_e6w7Vn"
+      ],
+      "name": "Champagne Story",
+      "settings": {
+        "heading": "Living Beautifully Since 1862",
+        "intro": "<p>The first day of summer, an intimate family evening, meeting a new partner… why wait on special occasions when so many moments of life deserve to be celebrated? Nestled on the Montagne de Reims, in the renowned village of Rilly-la-Montagne, our House crafts bright and sophisticated champagnes that take each occasion to another level of pleasure and sophistication.</p>",
+        "explore_text": "Explore",
+        "explore_link": "",
+        "columns": 2,
+        "panel_height": 560,
+        "pin_amount": 40,
+        "show_panel_text": false,
+        "color_scheme": "",
+        "padding-block-start": 96,
+        "padding-block-end": 40
+      }
     }
   },
   "order": [
     "custom_slideshow_xWjBQp",
     "cuvees",
-    "story"
+    "story",
+    "champagne_story_Bj9iy3"
   ]
 }
