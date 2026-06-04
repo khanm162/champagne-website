@@ -40,14 +40,7 @@
           {{ block.shopify_attributes }}
         >
           {%- if block.settings.image != blank -%}
-            <img
-              class="cdl-story__panel-img"
-              src="{{ block.settings.image | image_url: width: 1800 }}"
-              alt="{{ block.settings.heading | escape }}"
-              loading="lazy"
-              width="1800"
-              height="1200"
-            >
+            <div class="cdl-story__panel-bg" style="background-image: url('{{ block.settings.image | image_url: width: 2000 }}');"></div>
           {%- else -%}
             <span class="cdl-monogram" aria-hidden="true">DL</span>
           {%- endif -%}
@@ -131,20 +124,21 @@
     display: grid;
     place-items: center;
     overflow: hidden;
+    /* clip-path clips the position:fixed background to this panel */
+    clip-path: inset(0);
   }
 
-  /* Full, framed image (object-fit: cover) — shows the whole scene.
-     Sized to the panel width with a small vertical overshoot so the
-     parallax has room to drift (same idea as the reference's jarallax). */
-  .cdl-story__panel-img {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    top: -6%;
-    height: 112%;
-    object-fit: cover;
-    display: block;
-    will-change: transform;
+  /* The image is fixed to the viewport (it does NOT move while scrolling) and
+     framed to the panel's COLUMN width (no zoom). JS sets left/width to match
+     the column; height covers the viewport so it fills the panel as it passes. */
+  .cdl-story__panel-bg {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: 0;
   }
 
   .cdl-story__panel > .cdl-story__panel-text,
@@ -199,46 +193,40 @@
   /* Small screens: stack + normal (non-fixed) backgrounds to avoid touch jank */
   @media screen and (max-width: 749px) {
     .cdl-story__panels { grid-template-columns: 1fr; }
-    .cdl-story__panel { min-height: clamp(320px, 70vw, 520px); }
-    /* no parallax on mobile — show the full framed image with no overshoot */
-    .cdl-story__panel-img { top: 0; height: 100%; }
+    .cdl-story__panel { clip-path: none; min-height: clamp(320px, 70vw, 520px); }
+    /* normal (non-fixed) background on mobile */
+    .cdl-story__panel-bg { position: absolute; inset: 0; height: 100%; }
   }
 {% endstylesheet %}
 
 <script>
   (function () {
-    if (window.__cdlStoryParallax) return;
-    window.__cdlStoryParallax = true;
-    // Skip parallax on small screens (matches the reference: parallax-mobile=false)
-    if (window.matchMedia && window.matchMedia('(max-width: 749px)').matches) return;
+    if (window.__cdlStoryFixed) return;
+    window.__cdlStoryFixed = true;
+    var mq = window.matchMedia ? window.matchMedia('(max-width: 749px)') : null;
 
-    function update() {
-      var vh = window.innerHeight;
-      var imgs = document.querySelectorAll('.cdl-story__panel-img');
-      for (var i = 0; i < imgs.length; i++) {
-        var img = imgs[i];
-        var rect = img.parentElement.getBoundingClientRect();
-        if (rect.bottom < -100 || rect.top > vh + 100) continue;
-        // -1 (panel below viewport) → +1 (panel above), 0 at viewport center
-        var progress = (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2);
-        var maxShift = rect.height * 0.05;            // stay within the 6% overshoot
-        var y = -progress * maxShift;
-        if (y > maxShift) y = maxShift;
-        if (y < -maxShift) y = -maxShift;
-        img.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+    // Position each fixed background to match its column (left + width).
+    // No scroll handler — the image stays truly fixed; only layout changes matter.
+    function layout() {
+      var isMobile = mq && mq.matches;
+      var bgs = document.querySelectorAll('.cdl-story__panel-bg');
+      for (var i = 0; i < bgs.length; i++) {
+        var bg = bgs[i];
+        if (isMobile) { bg.style.left = ''; bg.style.width = ''; continue; }
+        var rect = bg.parentElement.getBoundingClientRect();
+        bg.style.left = rect.left + 'px';
+        bg.style.width = rect.width + 'px';
       }
     }
 
-    var ticking = false;
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () { update(); ticking = false; });
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    window.addEventListener('load', update);
-    update();
+    window.addEventListener('resize', layout, { passive: true });
+    window.addEventListener('orientationchange', layout);
+    window.addEventListener('load', layout);
+    document.addEventListener('DOMContentLoaded', layout);
+    // a couple of delayed passes in case fonts/images shift the layout
+    setTimeout(layout, 300);
+    setTimeout(layout, 1000);
+    layout();
   })();
 </script>
 
