@@ -9,46 +9,6 @@
  */
 {
   "sections": {
-    "hero": {
-      "type": "claude",
-      "blocks": {
-        "slide_1": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/delossy-champagne.jpg",
-            "small_text": "Champagne de Lossy",
-            "title": "Living Beautifully Since 1862",
-            "description": "From our village of Rilly-la-Montagne in the Montagne de Reims, we craft champagne for life's most beautiful moments.",
-            "button_text": "Discover Our Champagne",
-            "button_link": "/pages/shop"
-          }
-        },
-        "slide_2": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "small_text": "Cuvée Rosé",
-            "title": "An Invitation to Celebrate",
-            "description": "Delicate red fruits and a fine, elegant mousse — the rosé that turns gatherings into lasting memories.",
-            "button_text": "Shop the Rosé",
-            "button_link": "/pages/shop"
-          }
-        }
-      },
-      "block_order": [
-        "slide_1",
-        "slide_2"
-      ],
-      "settings": {
-        "subheading": "Maison de Champagne",
-        "heading": "",
-        "header_offset": 32,
-        "show_scroll_cue": true,
-        "enable_autoplay": true,
-        "first_slide_delay": 8,
-        "autoplay_delay": 6
-      }
-    },
     "story": {
       "type": "champagne-story",
       "blocks": {
@@ -207,7 +167,6 @@
     }
   },
   "order": [
-    "hero",
     "story",
     "cuvees",
     "pillars"
