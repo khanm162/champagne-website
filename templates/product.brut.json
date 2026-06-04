@@ -338,62 +338,6 @@
         "padding-block-end": 80
       }
     },
-    "pairings": {
-      "type": "champagne-pairings",
-      "blocks": {
-        "p1": {
-          "type": "pairing",
-          "settings": {
-            "dish": "Lobster with citrus beurre blanc",
-            "note": "The richness of the lobster meets the wine's bright acidity for a clean, elegant finish."
-          }
-        },
-        "p2": {
-          "type": "pairing",
-          "settings": {
-            "dish": "Grilled scallops with citrus glaze",
-            "note": "Sweet, caramelised scallops echo the cuvée's orange-peel notes."
-          }
-        },
-        "p3": {
-          "type": "pairing",
-          "settings": {
-            "dish": "Prosciutto with melon or figs",
-            "note": "Salt and ripe fruit play against the fresh red-berry character."
-          }
-        },
-        "p4": {
-          "type": "pairing",
-          "settings": {
-            "dish": "Strawberry or raspberry tart",
-            "note": "A patisserie pairing that mirrors the wine's own strawberry tone."
-          }
-        },
-        "p5": {
-          "type": "pairing",
-          "settings": {
-            "dish": "Citrus-infused pastries or sorbet",
-            "note": "Bright citrus desserts lengthen the finish without overwhelming it."
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4",
-        "p5"
-      ],
-      "settings": {
-        "subheading": "Pairing Suggestions",
-        "heading": "Perfect with the Brut",
-        "intro": "<p>Foods that balance richness and freshness bring out the cuvée's acidity and depth.</p>",
-        "section_width": "page-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 24,
-        "padding-block-end": 88
-      }
-    },
     "serving": {
       "type": "champagne-pillars",
       "blocks": {
@@ -589,7 +533,6 @@
   "order": [
     "main",
     "story",
-    "pairings",
     "serving",
     "recommendations"
   ]
