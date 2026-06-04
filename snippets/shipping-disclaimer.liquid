@@ -1,0 +1,141 @@
+{% comment %}
+  Champagne de Lossy — Checkout shipping disclaimer popup
+  Rendered once globally (from theme.liquid). Its script intercepts the
+  cart checkout button and shows this confirmation before proceeding.
+
+  Accepts (optional): email
+{% endcomment %}
+
+{%- assign cdl_email = email | default: 'info@fullcirclecommercesolutions.com' -%}
+
+<div
+  class="cdl-disclaimer"
+  id="cdl-shipping-disclaimer"
+  data-cdl-disclaimer
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="cdl-disclaimer-title"
+>
+  <div class="cdl-disclaimer__backdrop" data-cdl-close></div>
+  <div class="cdl-disclaimer__panel" role="document">
+    <span class="cdl-disclaimer__flourish" aria-hidden="true">✦</span>
+    <h2 class="cdl-disclaimer__title" id="cdl-disclaimer-title">Before you continue</h2>
+    <p class="cdl-disclaimer__body">
+      For special shipping requests, please contact
+      <a href="mailto:{{ cdl_email }}">{{ cdl_email }}</a>
+      following your order confirmation, and our team will personally take care of the details.
+    </p>
+    <div class="cdl-disclaimer__actions">
+      <button type="button" class="cdl-disclaimer__btn cdl-disclaimer__btn--ghost" data-cdl-close>
+        Back to cart
+      </button>
+      <button type="button" class="cdl-disclaimer__btn cdl-disclaimer__btn--solid" data-cdl-continue>
+        Continue to checkout
+      </button>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .cdl-disclaimer {
+    --cdl-gold: #b08d57;
+    --cdl-gold-deep: #9a7642;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .cdl-disclaimer[hidden] { display: none; }
+
+  .cdl-disclaimer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 15, 12, 0.55);
+    backdrop-filter: blur(3px);
+    animation: cdl-fade 0.3s ease;
+  }
+
+  .cdl-disclaimer__panel {
+    position: relative;
+    width: min(480px, 100%);
+    background: #faf6ef;
+    border: 1px solid rgba(176, 141, 87, 0.4);
+    padding: clamp(2rem, 5vw, 3.25rem);
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+    animation: cdl-rise 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .cdl-disclaimer__flourish {
+    display: block;
+    color: var(--cdl-gold);
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cdl-disclaimer__title {
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    margin: 0 0 1rem;
+    color: #1a1611;
+  }
+
+  .cdl-disclaimer__body {
+    font-family: var(--font-body--family);
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #4a4138;
+    margin: 0 0 2rem;
+  }
+
+  .cdl-disclaimer__body a {
+    color: var(--cdl-gold-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .cdl-disclaimer__actions {
+    display: flex;
+    gap: 0.85rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cdl-disclaimer__btn {
+    font-family: var(--font-subheading--family);
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.6rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .cdl-disclaimer__btn--ghost {
+    background: transparent;
+    border: 1px solid rgba(26, 22, 17, 0.3);
+    color: #1a1611;
+  }
+
+  .cdl-disclaimer__btn--ghost:hover { border-color: #1a1611; }
+
+  .cdl-disclaimer__btn--solid {
+    background: var(--cdl-gold);
+    border: 1px solid var(--cdl-gold);
+    color: #fff;
+  }
+
+  .cdl-disclaimer__btn--solid:hover { background: var(--cdl-gold-deep); border-color: var(--cdl-gold-deep); }
+
+  @keyframes cdl-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes cdl-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+{% endstylesheet %}
+
+<script src="{{ 'shipping-disclaimer.js' | asset_url }}" defer></script>

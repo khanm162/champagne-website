@@ -1,0 +1,100 @@
+{% comment %}
+  Champagne de Lossy — Buy Now (USA) top bar
+  A slim, always-visible bar above the header with a prominent CTA button.
+{% endcomment %}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<aside
+  class="cdl-buybar color-{{ section.settings.color_scheme }} section section--{{ section.settings.section_width }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  <div class="page-width cdl-buybar__inner">
+    {%- if section.settings.note != blank -%}
+      <p class="cdl-buybar__note">{{ section.settings.note }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_text != blank -%}
+      <a class="cdl-buybar__btn" href="{{ section.settings.button_link | default: '#' }}">
+        {{ section.settings.button_text }}
+      </a>
+    {%- endif -%}
+  </div>
+</aside>
+
+{% stylesheet %}
+  .cdl-buybar { --cdl-gold: #b08d57; --cdl-gold-deep: #9a7642; }
+
+  .cdl-buybar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .cdl-buybar__note {
+    margin: 0;
+    font-family: var(--font-subheading--family);
+    font-size: 0.74rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    opacity: 0.85;
+  }
+
+  .cdl-buybar__btn {
+    display: inline-block;
+    font-family: var(--font-subheading--family);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+    background: var(--cdl-gold);
+    padding: 0.62rem 1.7rem;
+    border: 1px solid var(--cdl-gold);
+    border-radius: 2px;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .cdl-buybar__btn:hover {
+    background: var(--cdl-gold-deep);
+    border-color: var(--cdl-gold-deep);
+    transform: translateY(-1px);
+  }
+
+  @media screen and (max-width: 749px) {
+    .cdl-buybar__inner { gap: 0.7rem; }
+    .cdl-buybar__note { font-size: 0.64rem; letter-spacing: 0.12em; }
+    .cdl-buybar__btn { font-size: 0.66rem; padding: 0.55rem 1.3rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Buy Now Bar",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "text", "id": "note", "label": "Note (left of button)", "default": "Estate champagne, shipped within the USA" },
+    { "type": "text", "id": "button_text", "label": "Button label", "default": "Buy Now — USA" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Appearance" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "full-width"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 10 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 10 }
+  ],
+  "presets": [
+    { "name": "Buy Now Bar" }
+  ]
+}
+{% endschema %}

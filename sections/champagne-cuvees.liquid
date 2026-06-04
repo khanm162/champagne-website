@@ -1,0 +1,324 @@
+{% comment %}
+  Champagne de Lossy — Cuvées / Shop grid
+  Self-contained luxury product grid. Works with placeholder content
+  (no image required) and on any color scheme.
+{% endcomment %}
+
+{%- liquid
+  assign cols = section.settings.columns | default: 3
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="cdl-cuvees color-{{ section.settings.color_scheme }} section section--{{ section.settings.section_width }}"
+  style="--cdl-cols: {{ cols }}; {% render 'spacing-padding', settings: section.settings %}"
+>
+  <div class="page-width">
+    {%- if section.settings.subheading != blank -%}
+      <p class="cdl-eyebrow">
+        <span class="cdl-rule"></span>{{ section.settings.subheading }}<span class="cdl-rule"></span>
+      </p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="cdl-cuvees__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.description != blank -%}
+      <div class="cdl-cuvees__intro">{{ section.settings.description }}</div>
+    {%- endif -%}
+
+    <div class="cdl-cuvees__grid">
+      {%- for block in section.blocks -%}
+        <article class="cdl-cuvee" {{ block.shopify_attributes }}>
+          <div class="cdl-cuvee__media">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 900 }}"
+                alt="{{ block.settings.name | escape }}"
+                loading="lazy"
+                width="900"
+                height="1125"
+              >
+            {%- else -%}
+              <div class="cdl-cuvee__placeholder" aria-hidden="true">
+                <svg viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 4c-2 0-3 1-3 3v26c0 6-7 9-7 22v34c0 4 2 6 6 6h8c4 0 6-2 6-6V55c0-13-7-16-7-22V7c0-2-1-3-3-3z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                  <rect x="13" y="60" width="14" height="22" rx="1.5" stroke="currentColor" stroke-width="1" fill="none"/>
+                </svg>
+                <span>{{ block.settings.name | slice: 0, 1 }}</span>
+              </div>
+            {%- endif -%}
+            {%- if block.settings.badge != blank -%}
+              <span class="cdl-cuvee__badge">{{ block.settings.badge }}</span>
+            {%- endif -%}
+          </div>
+
+          <div class="cdl-cuvee__body">
+            {%- if block.settings.name != blank -%}
+              <h3 class="cdl-cuvee__name">{{ block.settings.name }}</h3>
+            {%- endif -%}
+            {%- if block.settings.tasting_notes != blank -%}
+              <p class="cdl-cuvee__notes">{{ block.settings.tasting_notes }}</p>
+            {%- endif -%}
+            {%- if block.settings.price != blank -%}
+              <p class="cdl-cuvee__price">{{ block.settings.price }}</p>
+            {%- endif -%}
+            {%- if block.settings.button_text != blank -%}
+              <a class="cdl-btn cdl-btn--ghost" href="{{ block.settings.button_link | default: '#' }}">
+                {{ block.settings.button_text }}
+              </a>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.cta_text != blank -%}
+      <div class="cdl-cuvees__cta">
+        <a class="cdl-btn cdl-btn--solid" href="{{ section.settings.cta_link | default: '#' }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .cdl-cuvees {
+    --cdl-gold: #b08d57;
+    --cdl-gold-deep: #9a7642;
+    text-align: center;
+  }
+
+  .cdl-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+    margin: 0 0 1rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cdl-gold);
+  }
+
+  .cdl-eyebrow .cdl-rule {
+    width: 34px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cdl-gold));
+  }
+
+  .cdl-eyebrow .cdl-rule:last-child {
+    background: linear-gradient(90deg, var(--cdl-gold), transparent);
+  }
+
+  .cdl-cuvees__title {
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.05;
+    margin: 0 auto 1rem;
+    color: var(--color-foreground-heading, var(--color-foreground));
+  }
+
+  .cdl-cuvees__intro {
+    max-width: 46rem;
+    margin: 0 auto 3rem;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: var(--color-foreground);
+    opacity: 0.82;
+  }
+
+  .cdl-cuvees__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cdl-cols), 1fr);
+    gap: clamp(1.5rem, 3vw, 2.75rem);
+  }
+
+  @media screen and (max-width: 989px) {
+    .cdl-cuvees__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media screen and (max-width: 619px) {
+    .cdl-cuvees__grid { grid-template-columns: 1fr; }
+  }
+
+  .cdl-cuvee {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cdl-cuvee__media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(160deg, #f7f1e6 0%, #ece0cb 100%);
+    border: 1px solid rgba(176, 141, 87, 0.28);
+  }
+
+  .cdl-cuvee__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .cdl-cuvee:hover .cdl-cuvee__media img { transform: scale(1.04); }
+
+  .cdl-cuvee__placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(154, 118, 66, 0.55);
+  }
+
+  .cdl-cuvee__placeholder svg { width: 30%; height: auto; }
+
+  .cdl-cuvee__placeholder span {
+    position: absolute;
+    font-family: var(--font-heading--family);
+    font-size: 3.4rem;
+    color: rgba(154, 118, 66, 0.18);
+  }
+
+  .cdl-cuvee__badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.32rem 0.85rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(20, 18, 16, 0.78);
+    backdrop-filter: blur(2px);
+  }
+
+  .cdl-cuvee__body { padding: 1.5rem 0.5rem 0; }
+
+  .cdl-cuvee__name {
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: 1.55rem;
+    margin: 0 0 0.5rem;
+    color: var(--color-foreground-heading, var(--color-foreground));
+  }
+
+  .cdl-cuvee__notes {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--color-foreground);
+    opacity: 0.74;
+    margin: 0 0 0.85rem;
+  }
+
+  .cdl-cuvee__price {
+    font-family: var(--font-heading--family);
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+    color: var(--cdl-gold-deep);
+    margin: 0 0 1.1rem;
+  }
+
+  .cdl-btn {
+    display: inline-block;
+    font-family: var(--font-subheading--family);
+    font-size: 0.74rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 1.9rem;
+    transition: all 0.35s ease;
+    cursor: pointer;
+  }
+
+  .cdl-btn--ghost {
+    color: var(--color-foreground);
+    border: 1px solid rgba(176, 141, 87, 0.5);
+  }
+
+  .cdl-btn--ghost:hover {
+    background: var(--cdl-gold);
+    border-color: var(--cdl-gold);
+    color: #fff;
+  }
+
+  .cdl-btn--solid {
+    color: #fff;
+    background: var(--cdl-gold);
+    border: 1px solid var(--cdl-gold);
+  }
+
+  .cdl-btn--solid:hover { background: var(--cdl-gold-deep); border-color: var(--cdl-gold-deep); }
+
+  .cdl-cuvees__cta { margin-top: clamp(2.5rem, 5vw, 4rem); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Champagne Cuvées",
+  "tag": "section",
+  "class": "section-cdl-cuvees",
+  "settings": [
+    { "type": "text", "id": "subheading", "label": "Eyebrow", "default": "The Collection" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Discover Our Champagne" },
+    { "type": "richtext", "id": "description", "label": "Intro text" },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    { "type": "header", "content": "Call to action" },
+    { "type": "text", "id": "cta_text", "label": "Button label", "default": "Buy Now — USA" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "header", "content": "Appearance" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    {
+      "type": "cuvee",
+      "name": "Cuvée",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Bottle image" },
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Brut" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Cuvée Brut" },
+        { "type": "textarea", "id": "tasting_notes", "label": "Tasting notes", "default": "Citrus, brioche and white flowers, with a fine, persistent mousse." },
+        { "type": "text", "id": "price", "label": "Price", "default": "$95.00" },
+        { "type": "text", "id": "button_text", "label": "Button label", "default": "View Cuvée" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Champagne Cuvées",
+      "blocks": [
+        { "type": "cuvee" },
+        { "type": "cuvee" },
+        { "type": "cuvee" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,101 @@
+{
+  "sections": {
+    "collection": {
+      "type": "champagne-cuvees",
+      "blocks": {
+        "brut": {
+          "type": "cuvee",
+          "settings": {
+            "badge": "Brut",
+            "name": "Cuvée Brut",
+            "tasting_notes": "Citrus, brioche and white flowers, with a fine and persistent mousse. Our signature expression.",
+            "price": "$95.00",
+            "button_text": "Add to Cart",
+            "button_link": "/pages/shop"
+          }
+        },
+        "rose": {
+          "type": "cuvee",
+          "settings": {
+            "badge": "Rosé",
+            "name": "Cuvée Rosé",
+            "tasting_notes": "Delicate red berries and rose petal, elegant and beautifully balanced for celebration.",
+            "price": "$110.00",
+            "button_text": "Add to Cart",
+            "button_link": "/pages/shop"
+          }
+        },
+        "blanc": {
+          "type": "cuvee",
+          "settings": {
+            "badge": "Blanc de Blancs",
+            "name": "Cuvée Blanc de Blancs",
+            "tasting_notes": "Pure Chardonnay — crisp, mineral and refined, with notes of almond and lemon zest.",
+            "price": "$135.00",
+            "button_text": "Add to Cart",
+            "button_link": "/pages/shop"
+          }
+        }
+      },
+      "block_order": ["brut", "rose", "blanc"],
+      "settings": {
+        "subheading": "The Collection",
+        "heading": "Shop Champagne de Lossy",
+        "description": "<p>Estate champagne from Rilly-la-Montagne, shipped within the United States. Each cuvée is a celebration of our 1862 heritage. You must be 21 or older to purchase.</p>",
+        "columns": 3,
+        "cta_text": "",
+        "cta_link": "",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 100,
+        "padding-block-end": 80
+      }
+    },
+    "pillars": {
+      "type": "champagne-pillars",
+      "blocks": {
+        "p1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "ship",
+            "title": "Shipped in the USA",
+            "text": "Fulfilled by our licensed US shipping partner."
+          }
+        },
+        "p2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "bottle",
+            "title": "Special Requests",
+            "text": "Email info@fullcirclecommercesolutions.com after ordering."
+          }
+        },
+        "p3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "age",
+            "title": "21+ Only",
+            "text": "You must be of legal drinking age to purchase."
+          }
+        },
+        "p4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "leaf",
+            "title": "Sustainably Made",
+            "text": "Crafted with respect for the land and our vines."
+          }
+        }
+      },
+      "block_order": ["p1", "p2", "p3", "p4"],
+      "settings": {
+        "heading": "",
+        "section_width": "full-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      }
+    }
+  },
+  "order": ["collection", "pillars"]
+}

@@ -258,6 +258,11 @@
 </div>
 
 <div class="cart__ctas">
+  <p class="cart__shipping-note">
+    Special shipping requests? Email
+    <a href="mailto:info@fullcirclecommercesolutions.com">info@fullcirclecommercesolutions.com</a>
+    after your order confirmation.
+  </p>
   <button
     type="submit"
     id="checkout"
@@ -465,6 +470,21 @@
     gap: var(--checkout-button-gap);
     grid-auto-flow: row;
     grid-template-columns: 1fr;
+  }
+
+  .cart__shipping-note {
+    margin: 0 0 0.25rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--color-foreground);
+    opacity: 0.78;
+  }
+
+  .cart__shipping-note a {
+    color: #9a7642;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .cart__ctas .cart__checkout-button {
