@@ -361,8 +361,8 @@
         "tasting"
       ],
       "settings": {
-        "subheading": "Discover the Cuvée",
-        "heading": "A Toast to Life",
+        "subheading": "",
+        "heading": "",
         "section_width": "page-width",
         "color_scheme": "scheme-1",
         "padding-block-start": 160,
