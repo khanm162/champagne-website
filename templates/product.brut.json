@@ -293,8 +293,8 @@
         "gap": 48,
         "enable_sticky_add_to_cart": true,
         "color_scheme": "",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-start": 37,
+        "padding-block-end": 100
       }
     },
     "story": {
@@ -332,7 +332,7 @@
         "heading": "A Toast to Life",
         "section_width": "page-width",
         "color_scheme": "scheme-1",
-        "padding-block-start": 100,
+        "padding-block-start": 160,
         "padding-block-end": 80
       }
     },
