@@ -1,0 +1,210 @@
+{% comment %}
+PointAndFlow Ritual Video Section
+Luxury vertical video showcase
+{% endcomment %}
+
+<section class="pf-ritual-section">
+  <div class="page-width">
+
+    {% if section.settings.heading != blank %}
+      <h2 class="pf-ritual-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p class="pf-ritual-subheading">{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    <div class="pf-ritual-grid swiper pf-ritual-slider">
+      <div class="swiper-wrapper">
+
+        {% for block in section.blocks %}
+          <div class="swiper-slide" {{ block.shopify_attributes }}>
+
+            <div class="pf-ritual-card">
+
+              {% if block.settings.video != blank %}
+                {{ block.settings.video | video_tag:
+                  autoplay: true,
+                  loop: true,
+                  muted: true,
+                  controls: false,
+                  playsinline: true,
+                  class: 'pf-ritual-video'
+                }}
+              {% endif %}
+
+              {% if block.settings.overlay_text != blank %}
+                <div class="pf-ritual-overlay">
+                  <p>{{ block.settings.overlay_text }}</p>
+                </div>
+              {% endif %}
+
+            </div>
+
+          </div>
+        {% endfor %}
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<style>
+.pf-ritual-section {overflow: hidden;
+  padding: 100px 40px;
+  background: #FAF9F6;
+}
+
+.pf-ritual-heading {
+  text-align: center;
+  font-size: 50px;
+  color: #2B2B2B;
+  margin-bottom: 15px;
+}
+
+.pf-ritual-subheading {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px;
+  color: #666;
+  line-height: 1.7;
+}
+
+.pf-ritual-card {
+  position: relative;
+  border-radius: 30px;
+  overflow: hidden;
+  aspect-ratio: 9/16;
+  transition: all 0.5s ease;
+}
+
+.pf-ritual-card:hover {
+  transform: translateY(-8px);
+}
+
+.pf-ritual-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.pf-ritual-card:hover .pf-ritual-video {
+  transform: scale(1.05);
+}
+
+.pf-ritual-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 25px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+}
+
+.pf-ritual-overlay p {
+  color: white;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.pf-ritual-slider {
+  overflow: hidden;
+}
+
+@media(max-width:991px){
+  .pf-ritual-heading {
+    font-size: 40px;
+  }
+}
+
+@media(max-width:768px){
+  .pf-ritual-section {
+    padding: 70px 20px;
+  }
+
+  .pf-ritual-heading {
+    font-size: 34px;
+  }
+
+  .pf-ritual-subheading {
+    margin-bottom: 40px;
+  }
+}
+
+
+body,
+html {
+  overflow-x: hidden;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  new Swiper('.pf-ritual-slider', {
+    slidesPerView: 1.2,
+    spaceBetween: 20,
+    loop: true,
+    autoplay: {
+      delay: 4500,
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 2.2,
+      },
+      1200: {
+        slidesPerView: 4,
+      }
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Ritual Videos",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real People. Real Rituals."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "A glimpse into the wellness experience at PointAndFlow."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video_block",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Upload Video"
+        },
+        {
+          "type": "text",
+          "id": "overlay_text",
+          "label": "Overlay Text",
+          "default": "Experience Wellness"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PointAndFlow Ritual Videos"
+    }
+  ]
+}
+{% endschema %}

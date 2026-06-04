@@ -1,0 +1,697 @@
+{% comment %}
+  PointAndFlow Cinematic Hero
+  Full-viewport rotating hero — drag/swipe, 3D rotation
+{% endcomment %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+{%- if section.blocks.size > 0 and section.blocks.first.settings.image != blank -%}
+  <link rel="preload" as="image" href="{{ section.blocks.first.settings.image | image_url: width: 2000 }}" fetchpriority="high">
+{%- endif -%}
+
+<section class="pf-cinematic-hero" id="pf-cinematic-{{ section.id }}" data-hero-mode="{{ section.settings.hero_mode }}">
+  <div class="pf-cinematic-bg-ornament" aria-hidden="true"></div>
+
+  <div class="page-width pf-hero-intro">
+    {% if section.settings.subheading != blank %}
+      <p class="pf-cinematic-subheading">
+        <span class="pf-line"></span>
+        {{ section.settings.subheading }}
+        <span class="pf-line"></span>
+      </p>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h1 class="pf-cinematic-heading">{{ section.settings.heading }}</h1>
+    {% endif %}
+  </div>
+
+  <div class="swiper pf-cinematic-slider">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide" {{ block.shopify_attributes }}>
+          <div class="pf-cinematic-card">
+            {% if block.settings.image != blank %}
+              <div class="pf-cinematic-image">
+                <img
+                  src="{{ block.settings.image | image_url: width: 2000 }}"
+                  alt="{{ block.settings.title | escape }}"
+                  {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                  draggable="false"
+                >
+              </div>
+            {% endif %}
+
+            <div class="pf-cinematic-overlay"></div>
+            <div class="pf-cinematic-shine" aria-hidden="true"></div>
+
+            <div class="pf-cinematic-content">
+              
+
+              <h2>{{ block.settings.title }}</h2>
+
+              {% if block.settings.description != blank %}
+                <p>{{ block.settings.description }}</p>
+              {% endif %}
+
+              {% if block.settings.button_text != blank %}
+                <a href="{{ block.settings.button_link | default: '#' }}" class="pf-cinematic-btn">
+                  <span>{{ block.settings.button_text }}</span>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M2 8H14M14 8L9 3M14 8L9 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              {% endif %}
+            </div>
+
+            <div class="pf-cinematic-index">
+              <span class="pf-current">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="pf-sep">/</span>
+              <span class="pf-total">{{ section.blocks.size | prepend: '0' | slice: -2, 2 }}</span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="pf-cinematic-controls">
+      <button class="pf-cinematic-prev" aria-label="Previous slide">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11 3L5 9L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="pf-cinematic-progress">
+        <div class="pf-cinematic-progress-bar"></div>
+      </div>
+
+      <button class="pf-cinematic-next" aria-label="Next slide">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M7 3L13 9L7 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {% if section.settings.show_scroll_cue %}
+    <a href="#pf-scroll-target" class="pf-hero-scroll" aria-label="Scroll to explore">
+      <span class="pf-hero-scroll-label">Scroll</span>
+      <span class="pf-hero-scroll-line"></span>
+    </a>
+  {% endif %}
+</section>
+
+<div id="pf-scroll-target" aria-hidden="true"></div>
+
+<style>
+  #pf-cinematic-{{ section.id }} {
+    --pf-bg: #F5F1EA;
+    --pf-ink: #1F1B16;
+    --pf-muted: #8D7B68;
+    --pf-accent: #A67C52;
+    --pf-accent-deep: #6B4A2B;
+    --pf-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    --pf-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --pf-header-offset: {{ section.settings.header_offset | default: 80 }}px;
+  }
+
+  .pf-cinematic-hero {
+    position: relative;
+    background: linear-gradient(180deg, #FAF7F1 0%, #F2EDE3 100%);
+    overflow: hidden;
+    font-family: var(--pf-sans);
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: calc(var(--pf-header-offset) + 24px) 0 60px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pf-cinematic-bg-ornament {
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(166, 124, 82, 0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  .pf-cinematic-bg-ornament::after {
+    content: '';
+    position: absolute;
+    bottom: -800px;
+    left: -800px;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(141, 123, 104, 0.06), transparent 70%);
+  }
+
+  .pf-hero-intro {
+    flex-shrink: 0;
+    margin-bottom: 32px;
+  }
+
+  .pf-cinematic-subheading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--pf-muted);
+    margin: 0 0 18px;
+    font-weight: 500;
+  }
+
+  .pf-cinematic-subheading .pf-line {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--pf-muted), transparent);
+  }
+
+  .pf-cinematic-heading {
+    text-align: center;
+    font-family: var(--pf-serif);
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--pf-ink);
+    max-width: 740px;
+    margin: 0 auto;
+    font-style: italic;
+  }
+
+  .pf-cinematic-slider {
+    overflow: visible;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    perspective: 2200px;
+    padding-top: 8px;
+  }
+
+  .pf-cinematic-slider .swiper-wrapper {
+    align-items: center;
+    transform-style: preserve-3d;
+    flex: 1;
+  }
+
+  .pf-cinematic-slider .swiper-slide {
+    width: 72% !important;
+    max-width: 1100px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    opacity: 0.25;
+    transform-origin: center center;
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    filter: blur(2px) saturate(0.7);
+    will-change: transform, opacity;
+    height: auto;
+  }
+
+  .pf-cinematic-slider .swiper-slide-active {
+    opacity: 1;
+    filter: blur(0) saturate(1);
+    z-index: 20;
+  }
+
+  .pf-cinematic-card {
+    position: relative;
+    width: 100%;
+      height: clamp(560px, 78vh, 920px);
+    border-radius: 32px;
+    overflow: hidden;
+    background: #0a0a0a;
+    cursor: grab;
+    box-shadow:
+      0 30px 70px -20px rgba(31, 27, 22, 0.35),
+      0 10px 30px -10px rgba(31, 27, 22, 0.2);
+    isolation: isolate;
+  }
+
+  .pf-cinematic-card:active { cursor: grabbing; }
+
+  .pf-cinematic-slider,
+  .pf-cinematic-slider * { user-select: none; -webkit-user-drag: none; }
+
+  .pf-cinematic-image { width: 100%; height: 100%; }
+
+  .pf-cinematic-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.06);
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .swiper-slide-active .pf-cinematic-image img {
+    animation: pfSlowZoom 16s ease-in-out infinite alternate;
+  }
+
+  .pf-cinematic-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.85) 100%),
+      linear-gradient(110deg, rgba(0,0,0,0.4) 0%, transparent 50%);
+    z-index: 2;
+  }
+
+  .pf-cinematic-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.06) 50%, transparent 60%);
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .swiper-slide-active .pf-cinematic-shine { opacity: 1; }
+
+  .pf-cinematic-content {
+    position: absolute;
+    left: 56px;
+    bottom: 56px;
+    right: 56px;
+    z-index: 5;
+    max-width: 620px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+  }
+
+  .swiper-slide-active .pf-cinematic-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pf-cinematic-small {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    font-size: 11px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 100px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .pf-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--pf-accent);
+    box-shadow: 0 0 12px var(--pf-accent);
+    animation: pfPulse 2s ease-in-out infinite;
+  }
+
+  .pf-cinematic-content h2 {
+    font-family: var(--pf-serif);
+    font-weight: 400;
+    font-size: clamp(48px, 6vw, 84px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin: 0 0 24px;
+    font-style: italic;
+  }
+
+  .pf-cinematic-content p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.78);
+    margin: 0 0 34px;
+    font-weight: 300;
+    max-width: 480px;
+  }
+
+  .pf-cinematic-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 28px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pf-cinematic-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--pf-accent), var(--pf-accent-deep));
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+  }
+
+  .pf-cinematic-btn:hover {
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(166, 124, 82, 0.35);
+  }
+
+  .pf-cinematic-btn:hover::before { opacity: 1; }
+  .pf-cinematic-btn:hover svg { transform: translateX(4px); }
+  .pf-cinematic-btn svg { transition: transform 0.4s ease; }
+
+  .pf-cinematic-index {
+    position: absolute;
+    top: 36px;
+    right: 36px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--pf-serif);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.65);
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  .pf-cinematic-index .pf-current {
+    color: #fff;
+    font-size: 22px;
+  }
+
+  .pf-cinematic-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    margin-top: 36px;
+    padding: 0 24px;
+    flex-shrink: 0;
+  }
+
+  .pf-cinematic-prev,
+  .pf-cinematic-next {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid rgba(31, 27, 22, 0.2);
+    color: var(--pf-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    flex-shrink: 0;
+  }
+
+  .pf-cinematic-prev:hover,
+  .pf-cinematic-next:hover {
+    background: var(--pf-ink);
+    border-color: var(--pf-ink);
+    color: #fff;
+    transform: scale(1.05);
+  }
+
+  .pf-cinematic-prev:hover svg { transform: translateX(-3px); }
+  .pf-cinematic-next:hover svg { transform: translateX(3px); }
+  .pf-cinematic-prev svg,
+  .pf-cinematic-next svg { transition: transform 0.4s ease; }
+
+  .pf-cinematic-progress {
+    flex: 1;
+    max-width: 260px;
+    height: 1px;
+    background: rgba(31, 27, 22, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pf-cinematic-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--pf-accent), var(--pf-accent-deep));
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pf-hero-scroll {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--pf-muted);
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+    z-index: 30;
+    opacity: 0.75;
+    transition: opacity 0.4s ease;
+  }
+
+  .pf-hero-scroll:hover { opacity: 1; color: var(--pf-ink); }
+
+  .pf-hero-scroll-line {
+    width: 1px;
+    height: 36px;
+    background: currentColor;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pf-hero-scroll-line::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--pf-ink);
+    animation: pfScrollLine 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  @keyframes pfScrollLine {
+    0% { top: -100%; }
+    50% { top: 100%; }
+    100% { top: 100%; }
+  }
+
+  @keyframes pfSlowZoom {
+    0% { transform: scale(1.04); }
+    100% { transform: scale(1.12); }
+  }
+
+  @keyframes pfPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.3); }
+  }
+
+  @media (max-width: 1200px) {
+    .pf-cinematic-heading { font-size: 32px; }
+    .pf-cinematic-slider .swiper-slide { width: 82% !important; }
+  }
+
+  @media (max-width: 768px) {
+    .pf-cinematic-hero {
+      padding: calc(var(--pf-header-offset) + 16px) 0 80px;
+    }
+    .pf-hero-intro { margin-bottom: 24px; }
+    .pf-cinematic-heading {
+      font-size: 24px;
+      padding: 0 24px;
+    }
+    .pf-cinematic-slider { perspective: 1400px; }
+    .pf-cinematic-slider .swiper-slide { width: 86% !important; }
+    .pf-cinematic-card { height: clamp(440px, 62vh, 580px); border-radius: 24px; }
+    .pf-cinematic-content {
+      left: 28px;
+      right: 28px;
+      bottom: 28px;
+    }
+    .pf-cinematic-content h2 { font-size: clamp(36px, 9vw, 48px); margin-bottom: 16px; }
+    .pf-cinematic-content p { font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+    .pf-cinematic-btn { padding: 14px 22px; font-size: 12px; }
+    .pf-cinematic-prev,
+    .pf-cinematic-next { width: 46px; height: 46px; }
+    .pf-cinematic-index { top: 24px; right: 24px; font-size: 14px; }
+    .pf-cinematic-index .pf-current { font-size: 18px; }
+    .pf-cinematic-controls { gap: 16px; margin-top: 28px; }
+    .pf-cinematic-progress { max-width: 140px; }
+    .pf-hero-scroll { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-cinematic-image img,
+    .pf-dot,
+    .pf-hero-scroll-line::after { animation: none !important; }
+    .pf-cinematic-slider .swiper-slide,
+    .pf-cinematic-content,
+    .pf-cinematic-card,
+    .pf-cinematic-btn { transition: none !important; }
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const root = document.getElementById("pf-cinematic-{{ section.id }}");
+    if (!root) return;
+
+    const sliderEl = root.querySelector(".pf-cinematic-slider");
+    const progressBar = root.querySelector(".pf-cinematic-progress-bar");
+    const firstDelay = {{ section.settings.first_slide_delay | default: 8 }} * 1000;
+const recurringDelay = {{ section.settings.autoplay_delay | default: 6 }} * 1000;
+
+    const swiper = new Swiper(sliderEl, {
+      loop: true,
+      centeredSlides: true,
+      slidesPerView: "auto",
+      spaceBetween: 32,
+      speed: 900,
+      grabCursor: true,
+      simulateTouch: true,
+      allowTouchMove: true,
+      followFinger: true,
+      touchRatio: 1.2,
+      touchAngle: 45,
+      shortSwipes: true,
+      longSwipes: true,
+      longSwipesRatio: 0.18,
+      longSwipesMs: 280,
+      threshold: 2,
+      watchSlidesProgress: true,
+      observer: true,
+      observeParents: true,
+      resistance: true,
+      resistanceRatio: 0.75,
+      mousewheel: { forceToAxis: true, sensitivity: 0.6, thresholdDelta: 12 },
+      keyboard: { enabled: true },
+      autoplay: false,
+      navigation: {
+        nextEl: root.querySelector(".pf-cinematic-next"),
+        prevEl: root.querySelector(".pf-cinematic-prev"),
+      },
+      breakpoints: {
+        0:    { spaceBetween: 16 },
+        768:  { spaceBetween: 24 },
+        1200: { spaceBetween: 36 },
+      },
+      on: {
+        progress(s) {
+          for (let i = 0; i < s.slides.length; i++) {
+            const slide = s.slides[i];
+            const progress = slide.progress;
+            const abs = Math.min(Math.abs(progress), 2);
+            const rotateY = progress * -22;
+            const translateZ = -abs * 140;
+            const scale = 1 - abs * 0.08;
+            slide.style.transform =
+              `translate3d(0,0,${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
+          }
+        },
+        setTransition(s, duration) {
+          for (let i = 0; i < s.slides.length; i++) {
+            s.slides[i].style.transition = `transform ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
+          }
+        },
+        slideChange(s) {
+          const total = s.slides.length - 2;
+          const real = (s.realIndex % total) + 1;
+          const pct = (real / total) * 100;
+          if (progressBar) progressBar.style.width = pct + "%";
+        },
+        init(s) {
+          if (progressBar) {
+            const total = s.slides.length - 2;
+            progressBar.style.width = (1 / total) * 100 + "%";
+          }
+        },
+      },
+    });
+
+    // Delayed autoplay — give first slide breathing room before rotating
+    let autoplayTimer = null;
+    const startAutoplay = () => {
+      if (autoplayTimer) return;
+      autoplayTimer = setInterval(() => {
+        if (!sliderEl.matches(':hover')) swiper.slideNext();
+      }, recurringDelay);
+    };
+
+    if ({{ section.settings.enable_autoplay | json }}) {
+      setTimeout(startAutoplay, firstDelay);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Cinematic Hero",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "subheading", "label": "Eyebrow", "default": "Traditional Healing" },
+    { "type": "text", "id": "heading", "label": "Section Headline (kept small \u2014 slide titles are the hero)", "default": "Healing Experiences Designed For Your Wellbeing" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "header_offset", "min": 0, "max": 160, "step": 8, "unit": "px", "label": "Top spacing for overlay header", "default": 80, "info": "Increase if your navigation overlays the hero" },
+    { "type": "checkbox", "id": "show_scroll_cue", "label": "Show scroll indicator", "default": true },
+    { "type": "header", "content": "Autoplay" },
+    { "type": "checkbox", "id": "enable_autoplay", "label": "Auto-rotate slides", "default": true },
+    { "type": "range", "id": "first_slide_delay", "min": 4, "max": 15, "step": 1, "unit": "s", "label": "Wait before first auto-advance", "default": 8 },
+{ "type": "range", "id": "autoplay_delay", "min": 4, "max": 12, "step": 0.5, "unit": "s", "label": "Time between slides", "default": 6 }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Hero Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Background Image" },
+        { "type": "text", "id": "small_text", "label": "Eyebrow Text", "default": "Holistic Therapy" },
+        { "type": "text", "id": "title", "label": "Headline", "default": "Acupuncture" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "text", "id": "button_text", "label": "Button Text", "default": "Book Now" },
+        { "type": "url", "id": "button_link", "label": "Button Link" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "PointAndFlow Cinematic Hero" }
+  ]
+}
+{% endschema %}

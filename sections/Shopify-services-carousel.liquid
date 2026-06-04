@@ -1,0 +1,634 @@
+{% comment %}
+  PointAndFlow Services Carousel — Premium Editorial
+  Drag/swipe with image parallax + velocity skew
+{% endcomment %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<section class="pf-services-section" id="pf-services-{{ section.id }}">
+  <div class="pf-services-grain" aria-hidden="true"></div>
+
+  <div class="page-width">
+    <div class="pf-services-intro">
+      {% if section.settings.subheading != blank %}
+        <p class="pf-services-subheading">
+          <span class="pf-mark"></span>
+          {{ section.settings.subheading }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="pf-services-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <div class="pf-services-description">{{ section.settings.description }}</div>
+      {% endif %}
+    </div>
+
+    <div class="swiper pf-services-slider">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide" {{ block.shopify_attributes }}>
+            <article class="pf-service-card">
+
+              <div class="pf-card-number">
+                <span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                <span class="pf-card-label">Treatment</span>
+              </div>
+
+              {% if block.settings.image != blank %}
+                <div class="pf-service-image">
+                  <div class="pf-service-image-inner">
+                    <img
+                      src="{{ block.settings.image | image_url: width: 1200 }}"
+                      alt="{{ block.settings.title | escape }}"
+                      loading="lazy"
+                      draggable="false"
+                    >
+                  </div>
+                  <div class="pf-image-corner" aria-hidden="true">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                      <path d="M12 20H28M28 20L20 12M28 20L20 28" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+              {% endif %}
+
+              <div class="pf-service-content">
+                <h3>{{ block.settings.title }}</h3>
+                <div class="pf-divider"></div>
+                <p>{{ block.settings.description }}</p>
+
+                {% if block.settings.button_text != blank %}
+                  <a href="{{ block.settings.button_link | default: '#' }}" class="pf-service-btn">
+                    <span class="pf-btn-text">{{ block.settings.button_text }}</span>
+                    <span class="pf-btn-icon">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7H12M12 7L7.5 2.5M12 7L7.5 11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </a>
+                {% endif %}
+              </div>
+
+            </article>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="pf-services-footer">
+        <button class="pf-services-prev" aria-label="Previous">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
+            <path d="M19 7H1M1 7L7 1M1 7L7 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <div class="pf-services-pagination"></div>
+
+        <button class="pf-services-next" aria-label="Next">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
+            <path d="M1 7H19M19 7L13 1M19 7L13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<style>
+  #pf-services-{{ section.id }} {
+    --pf-bg: #FAF8F3;
+    --pf-bg-alt: #F1ECE2;
+    --pf-card: #FFFFFF;
+    --pf-ink: #1F1B16;
+    --pf-ink-soft: #4A453E;
+    --pf-muted: #8A8275;
+    --pf-accent: #6E8B74;
+    --pf-accent-deep: #4E6852;
+    --pf-warm: #8D6642;
+    --pf-serif: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+    --pf-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .pf-services-section {
+    position: relative;
+    padding: 120px 40px;
+    background: linear-gradient(180deg, #FAF8F3 0%, #F4EFE5 100%);
+    font-family: var(--pf-sans);
+    color: var(--pf-ink);
+    overflow: hidden;
+  }
+
+  .pf-services-grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    background-image: radial-gradient(rgba(31, 27, 22, 0.04) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+  }
+
+  .pf-services-intro {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pf-services-subheading {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--pf-accent);
+    margin: 0 0 22px;
+    font-weight: 500;
+  }
+
+  .pf-mark {
+    width: 24px;
+    height: 1px;
+    background: var(--pf-accent);
+  }
+
+  .pf-services-heading {
+    font-family: var(--pf-serif);
+    font-weight: 300;
+    font-size: 64px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 28px;
+    color: var(--pf-ink);
+  }
+
+  .pf-services-heading em,
+  .pf-services-heading i { font-style: italic; font-weight: 400; }
+
+  .pf-services-description {
+    max-width: 580px;
+    margin: 0 auto;
+    color: var(--pf-ink-soft);
+    font-size: 16px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .pf-services-slider {
+    overflow: visible;
+    padding: 20px 0 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pf-services-slider .swiper-slide {
+    height: auto;
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0.55;
+    will-change: transform;
+  }
+
+  .pf-services-slider .swiper-slide-active,
+  .pf-services-slider .swiper-slide-next,
+  .pf-services-slider .swiper-slide-prev {
+    opacity: 1;
+  }
+
+  .pf-service-card {
+    position: relative;
+    background: var(--pf-card);
+    border-radius: 28px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+      0 1px 0 rgba(31, 27, 22, 0.04),
+      0 20px 50px -25px rgba(31, 27, 22, 0.18);
+    transition:
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    isolation: isolate;
+  }
+
+  .pf-service-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 1px 0 rgba(31, 27, 22, 0.04),
+      0 30px 60px -20px rgba(31, 27, 22, 0.25);
+  }
+
+  .pf-card-number {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 4;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 100px;
+    font-family: var(--pf-serif);
+    color: var(--pf-ink);
+  }
+
+  .pf-card-number > span:first-child {
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .pf-card-label {
+    font-family: var(--pf-sans);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--pf-muted);
+    font-weight: 500;
+  }
+
+  .pf-service-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    margin: 14px 14px 0;
+    height: 380px;
+    background: var(--pf-bg-alt);
+  }
+
+  /* Image inner wraps for parallax — JS sets translateX */
+  .pf-service-image-inner {
+    position: absolute;
+    inset: 0;
+    will-change: transform;
+  }
+
+  .pf-service-image-inner img {
+    width: 115%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    margin-left: -7.5%;
+  }
+
+  .pf-service-card:hover .pf-service-image-inner img {
+    transform: scale(1.12);
+  }
+
+  .pf-image-corner {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    z-index: 3;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    color: var(--pf-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(8px, 8px) rotate(-45deg);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pf-service-card:hover .pf-image-corner {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+
+  .pf-service-content {
+    padding: 32px 28px 36px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .pf-service-content h3 {
+    font-family: var(--pf-serif);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+    color: var(--pf-ink);
+  }
+
+  .pf-divider {
+    width: 32px;
+    height: 1px;
+    background: var(--pf-accent);
+    margin-bottom: 18px;
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pf-service-card:hover .pf-divider { width: 56px; }
+
+  .pf-service-content p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--pf-ink-soft);
+    margin: 0 0 26px;
+    font-weight: 300;
+    flex: 1;
+  }
+
+  .pf-service-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    align-self: flex-start;
+    padding: 0;
+    background: transparent;
+    color: var(--pf-ink);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    position: relative;
+    transition: gap 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pf-service-btn:hover { gap: 8px; }
+
+  .pf-btn-text {
+    position: relative;
+    padding-bottom: 4px;
+  }
+
+  .pf-btn-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--pf-ink);
+    transform-origin: right center;
+    transform: scaleX(1);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pf-service-btn:hover .pf-btn-text::after {
+    transform-origin: left center;
+    transform: scaleX(1);
+  }
+
+  .pf-btn-icon {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--pf-ink);
+    color: #fff;
+    margin-left: 12px;
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pf-service-btn:hover .pf-btn-icon {
+    background: var(--pf-accent);
+    transform: rotate(-45deg);
+  }
+
+  .pf-services-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    margin-top: 60px;
+  }
+
+  .pf-services-prev,
+  .pf-services-next {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid rgba(31, 27, 22, 0.18);
+    color: var(--pf-ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    flex-shrink: 0;
+  }
+
+  .pf-services-prev:hover,
+  .pf-services-next:hover {
+    background: var(--pf-ink);
+    border-color: var(--pf-ink);
+    color: #fff;
+  }
+
+  .pf-services-prev:hover svg { transform: translateX(-3px); }
+  .pf-services-next:hover svg { transform: translateX(3px); }
+  .pf-services-prev svg,
+  .pf-services-next svg { transition: transform 0.4s ease; }
+
+  .pf-services-pagination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pf-services-pagination .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(31, 27, 22, 0.2);
+    opacity: 1;
+    margin: 0 !important;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
+  }
+
+  .pf-services-pagination .swiper-pagination-bullet-active {
+    background: var(--pf-accent);
+    width: 32px;
+    border-radius: 100px;
+  }
+
+  /* Make cards feel grabbable */
+  .pf-services-slider { cursor: grab; }
+  .pf-services-slider.swiper-grabbing,
+  .pf-services-slider.swiper-grabbing * { cursor: grabbing !important; }
+  .pf-services-slider * { user-select: none; -webkit-user-drag: none; }
+
+  @media (max-width: 1200px) {
+    .pf-services-heading { font-size: 52px; }
+    .pf-service-image { height: 340px; }
+  }
+
+  @media (max-width: 768px) {
+    .pf-services-section { padding: 80px 20px; }
+    .pf-services-intro { margin-bottom: 50px; }
+    .pf-services-heading { font-size: 38px; }
+    .pf-services-description { font-size: 14px; }
+    .pf-service-image { height: 300px; margin: 12px 12px 0; }
+    .pf-service-content { padding: 24px 22px 28px; }
+    .pf-service-content h3 { font-size: 26px; }
+    .pf-service-content p { font-size: 14px; margin-bottom: 22px; }
+    .pf-services-footer { gap: 18px; margin-top: 40px; }
+    .pf-services-prev,
+    .pf-services-next { width: 46px; height: 46px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-service-card,
+    .pf-service-image-inner,
+    .pf-service-image-inner img,
+    .pf-divider,
+    .pf-image-corner,
+    .pf-services-slider .swiper-slide { transition: none !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const root = document.getElementById('pf-services-{{ section.id }}');
+    if (!root) return;
+
+    const sliderEl = root.querySelector('.pf-services-slider');
+
+    const swiper = new Swiper(sliderEl, {
+      slidesPerView: 1,
+      centeredSlides: true,
+      loop: true,
+      spaceBetween: 24,
+      speed: 800,
+      grabCursor: true,
+      simulateTouch: true,
+      allowTouchMove: true,
+      followFinger: true,
+      touchRatio: 1.1,
+      threshold: 2,
+      shortSwipes: true,
+      longSwipes: true,
+      longSwipesRatio: 0.2,
+      resistance: true,
+      resistanceRatio: 0.7,
+      watchSlidesProgress: true,
+      mousewheel: { forceToAxis: true, sensitivity: 0.5, thresholdDelta: 14 },
+      keyboard: { enabled: true },
+      autoplay: { delay: 6500, disableOnInteraction: false, pauseOnMouseEnter: true },
+      pagination: {
+        el: root.querySelector('.pf-services-pagination'),
+        clickable: true,
+      },
+      navigation: {
+        nextEl: root.querySelector('.pf-services-next'),
+        prevEl: root.querySelector('.pf-services-prev'),
+      },
+      breakpoints: {
+        768:  { slidesPerView: 2, spaceBetween: 28 },
+        1200: { slidesPerView: 3, spaceBetween: 32 },
+      },
+      on: {
+        progress(s) {
+          // Horizontal image parallax + subtle scale per slide,
+          // and a velocity-driven skew on the cards while dragging.
+          for (let i = 0; i < s.slides.length; i++) {
+            const slide = s.slides[i];
+            const p = slide.progress; // negative = left of center, 0 = center, positive = right
+            const clamped = Math.max(-2, Math.min(2, p));
+
+            // Image parallax shift (opposite direction, gentle)
+            const inner = slide.querySelector('.pf-service-image-inner');
+            if (inner) {
+              const shift = clamped * -28; // px
+              inner.style.transform = `translate3d(${shift}px, 0, 0)`;
+            }
+
+            // Subtle scale lift on the centered card
+            const card = slide.querySelector('.pf-service-card');
+            if (card) {
+              const dist = Math.min(Math.abs(clamped), 1);
+              const scale = 1 - dist * 0.04;
+              card.style.transform = `scale(${scale})`;
+            }
+          }
+
+          // Velocity-driven skew while user is dragging
+          const translate = s.translate;
+          const previous = sliderEl._pfLastTranslate ?? translate;
+          const velocity = translate - previous;
+          sliderEl._pfLastTranslate = translate;
+
+          const skew = Math.max(-3, Math.min(3, velocity * 0.05));
+          for (let i = 0; i < s.slides.length; i++) {
+            const card = s.slides[i].querySelector('.pf-service-card');
+            if (card) {
+              const currentT = card.style.transform.replace(/skewX\([^)]+\)/g, '');
+              card.style.transform = `${currentT} skewX(${skew}deg)`;
+            }
+          }
+        },
+        setTransition(s, duration) {
+          for (let i = 0; i < s.slides.length; i++) {
+            const inner = s.slides[i].querySelector('.pf-service-image-inner');
+            if (inner) inner.style.transition = `transform ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
+            const card = s.slides[i].querySelector('.pf-service-card');
+            if (card) card.style.transition = `transform ${duration}ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1)`;
+          }
+        },
+        touchEnd() {
+          // Reset skew after release
+          requestAnimationFrame(() => {
+            const slides = sliderEl.querySelectorAll('.pf-service-card');
+            slides.forEach(card => {
+              card.style.transform = card.style.transform.replace(/skewX\([^)]+\)/g, '');
+            });
+          });
+        },
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Services Carousel",
+  "settings": [
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Our Treatments" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Healing Experiences Designed For Your Wellbeing" },
+    { "type": "richtext", "id": "description", "label": "Description" }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Service Image" },
+        { "type": "text", "id": "title", "label": "Service Title" },
+        { "type": "textarea", "id": "description", "label": "Service Description" },
+        { "type": "text", "id": "button_text", "label": "Button Text", "default": "Explore More" },
+        { "type": "url", "id": "button_link", "label": "Button Link" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "PointAndFlow Services Carousel" }
+  ]
+}
+{% endschema %}

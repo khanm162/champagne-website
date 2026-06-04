@@ -1,0 +1,568 @@
+{% comment %}
+PointAndFlow Wellness Philosophy Section
+Premium luxury editorial — refined spa aesthetic
+Matches full pf- design system
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<section class="pf-wellness-section" id="pf-wellness-{{ section.id }}">
+
+  <div class="pf-wellness-grain" aria-hidden="true"></div>
+
+  <div class="pf-wellness-inner page-width">
+
+    <!-- Header -->
+    <header class="pf-wellness-header pf-w-reveal">
+
+      {% if section.settings.subheading != blank %}
+        <div class="pf-wellness-eyebrow">
+          <span class="pf-wellness-eyebrow-line" aria-hidden="true"></span>
+          <p class="pf-wellness-subheading">{{ section.settings.subheading }}</p>
+          <span class="pf-wellness-eyebrow-line" aria-hidden="true"></span>
+        </div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="pf-wellness-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+    </header>
+
+    <!-- Three-column layout -->
+    <div class="pf-wellness-wrapper">
+
+      <!-- Left pillars -->
+      <div class="pf-wellness-col pf-wellness-left">
+        {% assign left_i = 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'left_content' %}
+            {% assign left_i = left_i | plus: 1 %}
+            <div
+              class="pf-pillar pf-pillar--left pf-w-reveal"
+              style="--p-i: {{ left_i }};"
+              {{ block.shopify_attributes }}
+            >
+              <div class="pf-pillar-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/>
+                  <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="pf-pillar-body">
+                <h3 class="pf-pillar-title">{{ block.settings.title }}</h3>
+                <p class="pf-pillar-text">{{ block.settings.text }}</p>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        {% if section.settings.button_text != blank %}
+          <div class="pf-wellness-btn-wrap pf-w-reveal" style="--p-i: 10;">
+            <a href="{{ section.settings.button_link }}" class="pf-wellness-btn">
+              <span>{{ section.settings.button_text }}</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Center image -->
+      <div class="pf-wellness-col pf-wellness-center pf-w-reveal" style="--p-i: 2;">
+        {% if section.settings.center_image != blank %}
+          <div class="pf-oval-frame">
+
+            <!-- Decorative ring -->
+            <div class="pf-oval-ring" aria-hidden="true"></div>
+
+            <div class="pf-oval-image">
+              <img
+                src="{{ section.settings.center_image | image_url: width: 1200 }}"
+                alt="{{ section.settings.heading }}"
+                loading="lazy"
+              >
+            </div>
+
+            <!-- Gold accent dot -->
+            <div class="pf-oval-accent" aria-hidden="true"></div>
+
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Right pillars -->
+      <div class="pf-wellness-col pf-wellness-right">
+        {% assign right_i = 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'right_content' %}
+            {% assign right_i = right_i | plus: 1 %}
+            <div
+              class="pf-pillar pf-pillar--right pf-w-reveal"
+              style="--p-i: {{ right_i | plus: 2 }};"
+              {{ block.shopify_attributes }}
+            >
+              <div class="pf-pillar-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/>
+                  <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="pf-pillar-body">
+                <h3 class="pf-pillar-title">{{ block.settings.title }}</h3>
+                <p class="pf-pillar-text">{{ block.settings.text }}</p>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+
+/* ─── Tokens ─── */
+#pf-wellness-{{ section.id }} {
+  --pf-bg:         #E4EDE5;
+  --pf-dark:       #1C1A17;
+  --pf-gold:       #B89A6A;
+  --pf-gold-light: #D4B896;
+  --pf-sage:       #4A6551;
+  --pf-sage-light: #6E8B74;
+  --pf-text:       #2E3A2F;
+  --pf-muted:      #6B7A6C;
+  --pf-border:     rgba(45, 70, 50, 0.12);
+  --pf-font-serif: 'Cormorant Garamond', Georgia, serif;
+  --pf-font-sans:  'Jost', sans-serif;
+  --pf-ease-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Section ─── */
+.pf-wellness-section {
+  position: relative;
+  padding: 130px 40px 150px;
+  background: var(--pf-bg);
+  overflow: hidden;
+}
+
+/* Grain */
+.pf-wellness-grain {
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  animation: pf-w-grain 8s steps(10) infinite;
+}
+
+@keyframes pf-w-grain {
+  0%,100% { transform: translate(0,0) }
+  10%     { transform: translate(-1%,-1%) }
+  20%     { transform: translate(1%,0) }
+  30%     { transform: translate(-1%,1%) }
+  40%     { transform: translate(0,-1%) }
+  50%     { transform: translate(1%,1%) }
+  60%     { transform: translate(-1%,0) }
+  70%     { transform: translate(0,1%) }
+  80%     { transform: translate(1%,-1%) }
+  90%     { transform: translate(-1%,1%) }
+}
+
+.pf-wellness-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Header ─── */
+.pf-wellness-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.pf-wellness-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.pf-wellness-eyebrow-line {
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: var(--pf-sage);
+  opacity: 0.6;
+}
+
+.pf-wellness-subheading {
+  font-family: var(--pf-font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--pf-sage);
+  margin: 0;
+}
+
+.pf-wellness-heading {
+  font-family: var(--pf-font-serif);
+  font-weight: 300;
+  font-size: 68px;
+  line-height: 1.05;
+  letter-spacing: -0.3px;
+  color: var(--pf-dark);
+  margin: 0;
+}
+
+/* ─── Three-column layout ─── */
+.pf-wellness-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  gap: 0 60px;
+  align-items: center;
+}
+
+.pf-wellness-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Left aligns content toward center (image) */
+.pf-wellness-left {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* Right aligns content toward center */
+.pf-wellness-right {
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Center column centers */
+.pf-wellness-center {
+  align-items: center;
+}
+
+/* ─── Pillars ─── */
+.pf-pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+/* Icon side — left pillars flip to right */
+.pf-pillar--left {
+  flex-direction: row-reverse;
+}
+
+.pf-pillar--right {
+  flex-direction: row;
+}
+
+.pf-pillar-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(74, 101, 81, 0.25);
+  background: rgba(74, 101, 81, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pf-sage);
+  flex-shrink: 0;
+  margin-top: 4px;
+  transition: all 0.4s var(--pf-ease-expo);
+}
+
+.pf-pillar:hover .pf-pillar-icon {
+  background: var(--pf-sage);
+  border-color: var(--pf-sage);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.pf-pillar-body {
+  flex: 1;
+}
+
+.pf-pillar-title {
+  font-family: var(--pf-font-serif);
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--pf-dark);
+  margin: 0 0 10px;
+}
+
+.pf-pillar-text {
+  font-family: var(--pf-font-sans);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--pf-muted);
+  margin: 0;
+}
+
+/* ─── Button ─── */
+.pf-wellness-btn-wrap {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pf-wellness-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--pf-font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  background: var(--pf-sage);
+  padding: 14px 26px 14px 28px;
+  border-radius: 100px;
+  border: 1px solid var(--pf-sage);
+  transition: all 0.35s ease;
+}
+
+.pf-wellness-btn svg {
+  transition: transform 0.35s var(--pf-ease-expo);
+}
+
+.pf-wellness-btn:hover {
+  background: var(--pf-dark);
+  border-color: var(--pf-dark);
+}
+
+.pf-wellness-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* ─── Center image ─── */
+.pf-oval-frame {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Decorative outer ring */
+.pf-oval-ring {
+  position: absolute;
+  inset: -18px;
+  border-radius: 50% / 35%;
+  border: 1px solid rgba(74, 101, 81, 0.18);
+  pointer-events: none;
+  animation: pf-ring-breathe 6s ease-in-out infinite;
+}
+
+@keyframes pf-ring-breathe {
+  0%, 100% { transform: scale(1);    opacity: 0.7; }
+  50%       { transform: scale(1.02); opacity: 1; }
+}
+
+.pf-oval-image {
+  width: 100%;
+  height: 640px;
+  border-radius: 50% / 35%;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 40px 80px rgba(28, 40, 30, 0.18),
+    0 8px 24px rgba(28, 40, 30, 0.10);
+}
+
+.pf-oval-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.4s var(--pf-ease-expo);
+}
+
+.pf-oval-frame:hover .pf-oval-image img {
+  transform: scale(1.05);
+}
+
+/* Gold accent dot — bottom right of oval */
+.pf-oval-accent {
+  position: absolute;
+  bottom: 14%;
+  right: -10px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--pf-gold);
+  box-shadow: 0 0 0 4px rgba(184, 154, 106, 0.2);
+  pointer-events: none;
+}
+
+/* ─── Scroll reveal ─── */
+.pf-w-reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity 0.85s var(--pf-ease-expo),
+    transform 0.85s var(--pf-ease-expo);
+}
+
+.pf-w-reveal.pf-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pf-pillar.pf-w-reveal,
+.pf-wellness-btn-wrap.pf-w-reveal {
+  transition-delay: calc((var(--p-i, 1) - 1) * 90ms);
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1100px) {
+  .pf-wellness-heading { font-size: 52px; }
+
+  .pf-wellness-wrapper {
+    grid-template-columns: 1fr;
+    gap: 60px 0;
+  }
+
+  .pf-wellness-left,
+  .pf-wellness-right {
+    align-items: center;
+    text-align: center;
+  }
+
+  .pf-wellness-center { order: -1; }
+
+  .pf-pillar--left,
+  .pf-pillar--right {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .pf-wellness-btn-wrap {
+    justify-content: center;
+  }
+
+  .pf-oval-image { height: 520px; }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+  .pf-wellness-section  { padding: 80px 20px 100px; }
+  .pf-wellness-heading  { font-size: 40px; }
+  .pf-wellness-header   { margin-bottom: 50px; }
+
+  .pf-oval-image  { height: 420px; }
+  .pf-oval-frame  { max-width: 320px; }
+
+  .pf-pillar-title { font-size: 24px; }
+
+  .pf-pillar { margin-bottom: 36px; }
+
+  .pf-wellness-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .pf-wellness-btn-wrap {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+</style>
+
+<script>
+(function () {
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const section = document.getElementById('pf-wellness-{{ section.id }}');
+    if (!section) return;
+
+    const revealEls = section.querySelectorAll('.pf-w-reveal');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('pf-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => observer.observe(el));
+
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "PointAndFlow Wellness",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our Philosophy"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Why Holistic Wellness Works"
+    },
+    {
+      "type": "image_picker",
+      "id": "center_image",
+      "label": "Center Image"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Explore Treatments"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "left_content",
+      "name": "Left Pillar",
+      "settings": [
+        { "type": "text",     "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text",  "label": "Text"  }
+      ]
+    },
+    {
+      "type": "right_content",
+      "name": "Right Pillar",
+      "settings": [
+        { "type": "text",     "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text",  "label": "Text"  }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PointAndFlow Wellness Section"
+    }
+  ]
+}
+{% endschema %}
