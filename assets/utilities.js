@@ -706,9 +706,8 @@ export function setHeaderMenuStyle() {
   const headerComponent = /** @type {HTMLElement} | null */ (document.querySelector('#header-component'));
   if (headerComponent) {
     window.requestAnimationFrame(() => {
-      const overflowList = headerComponent?.querySelector('overflow-list');
-      const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
-      headerComponent.dataset.menuStyle = isTouchDevice() || hasReachedMinimum ? 'drawer' : 'menu';
+      // Champagne de Lossy: always use the hamburger/drawer menu (no inline desktop menu)
+      headerComponent.dataset.menuStyle = 'drawer';
     });
   }
 }

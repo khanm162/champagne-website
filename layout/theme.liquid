@@ -32,9 +32,6 @@
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
     {%- render 'custom-fonts' -%}
-    {%- unless request.design_mode -%}
-      {%- render 'header-reveal' -%}
-    {%- endunless -%}
 
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
@@ -110,10 +107,8 @@
       (function setHeaderMenuStyle() {
         const headerComponent = document.querySelector('#header-component');
         if (headerComponent) {
-          const isTouchDevice = 'ontouchstart' in window && navigator.maxTouchPoints > 0;
-          const overflowList = headerComponent?.querySelector('overflow-list');
-          const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
-          headerComponent.dataset.menuStyle = isTouchDevice || hasReachedMinimum ? 'drawer' : 'menu';
+          // Champagne de Lossy: always use the hamburger/drawer menu (no inline desktop menu)
+          headerComponent.dataset.menuStyle = 'drawer';
         }
       })();
     </script>
