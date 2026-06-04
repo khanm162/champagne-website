@@ -28,13 +28,12 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
-  class="cdl-story color-{{ section.settings.color_scheme }} section section--full-width spacing-style"
+  class="cdl-story color-{{ section.settings.color_scheme }} section section--page-width spacing-style"
   style="{% render 'spacing-padding', settings: section.settings %} --cols: {{ section.settings.columns }}; --panel-h: {{ section.settings.panel_height }}px; --gap: {{ section.settings.image_gap }}px;"
 >
   {%- if content_first -%}{{ cdl_text }}{%- endif -%}
 
   {%- if section.blocks.size > 0 -%}
-    <div class="page-width">
     <div class="cdl-story__panels">
       {%- for block in section.blocks -%}
         <div
@@ -56,7 +55,6 @@
           {%- endif -%}
         </div>
       {%- endfor -%}
-    </div>
     </div>
   {%- endif -%}
 
