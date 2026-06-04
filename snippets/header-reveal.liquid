@@ -1,0 +1,20 @@
+{% comment %}
+  Champagne de Lossy — header intro reveal
+  On page load the whole header group slides down from the top. Pure CSS
+  animation (runs once on load). No fill-mode "forwards", so afterwards the
+  header has no transform and the sticky header keeps working. Skipped for
+  reduced-motion users; not rendered in the theme editor (see theme.liquid).
+{% endcomment %}
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    #header-group {
+      animation: cdlHeaderDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
+    }
+
+    @keyframes cdlHeaderDown {
+      from { opacity: 0; transform: translateY(-100%); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
+</style>

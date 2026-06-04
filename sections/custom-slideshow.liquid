@@ -9,12 +9,15 @@ Matches pf-treatment-categories design system
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 
 <section
-  class="pf-slideshow"
+  class="pf-slideshow{% unless request.design_mode %} cdl-hero-reveal{% endunless %}"
   id="pf-slideshow-{{ section.id }}"
   data-autoplay="{{ section.settings.autoplay }}"
   data-speed="{{ section.settings.slide_speed }}"
   aria-label="Featured slideshow"
 >
+
+  <!-- Load reveal curtain: collapses upward so the hero fills bottom → top -->
+  <div class="pf-ss-curtain" aria-hidden="true"></div>
 
   <!-- Grain overlay -->
   <div class="pf-ss-grain" aria-hidden="true"></div>
@@ -167,6 +170,29 @@ Matches pf-treatment-categories design system
   min-height: 600px;
   overflow: hidden;
   background: var(--pf-dark);
+}
+
+/* ─── Load reveal (hero fills from bottom to top) ─── */
+.pf-ss-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  background: var(--color-background, #f5f1eb);
+  transform-origin: top center;
+  transform: scaleY(0);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pf-slideshow.cdl-hero-reveal .pf-ss-curtain {
+    transform: scaleY(1);
+    animation: cdlHeroFill 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  }
+}
+
+@keyframes cdlHeroFill {
+  from { transform: scaleY(1); }
+  to   { transform: scaleY(0); }
 }
 
 /* Grain */
