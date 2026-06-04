@@ -25,6 +25,7 @@
         },
         "slide_2": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "small_text": "Cuvée Rosé",
             "title": "An Invitation to Celebrate",
