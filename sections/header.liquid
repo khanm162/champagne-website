@@ -819,7 +819,8 @@
     column-gap: 0;
     align-items: center;
     padding-block: 0;
-    padding-inline: 0 var(--padding-3xs);
+    /* Champagne de Lossy: inset the hamburger (left) and cart/account (right) from the edges */
+    padding-inline: clamp(1rem, 4vw, 3.5rem);
 
     .header-logo {
       grid-area: center;
