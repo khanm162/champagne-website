@@ -1,106 +1,244 @@
 {% comment %}
-  Champagne de Lossy — Pairing suggestions
-  Editorial list of food pairings (dish + why it works).
+  Champagne de Lossy — Pairing suggestions (carousel)
+  Editorial slider: full-bleed food image on one side, centered text on the
+  other, image side alternating per slide. Arrows + numbered pagination.
+  The section heading/intro renders as the first slide.
 {% endcomment %}
+
+{%- liquid
+  assign has_intro = false
+  if section.settings.heading != blank or section.settings.intro != blank
+    assign has_intro = true
+  endif
+  assign total = section.blocks.size
+  if has_intro
+    assign total = total | plus: 1
+  endif
+-%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   class="cdl-pairings color-{{ section.settings.color_scheme }} section section--{{ section.settings.section_width }}"
+  id="cdl-pairings-{{ section.id }}"
   style="{% render 'spacing-padding', settings: section.settings %}"
 >
-  <div class="page-width">
-    <div class="cdl-pairings__head">
-      {%- if section.settings.subheading != blank -%}
-        <p class="cdl-eyebrow">
-          <span class="cdl-rule"></span>{{ section.settings.subheading }}<span class="cdl-rule"></span>
-        </p>
-      {%- endif -%}
-      {%- if section.settings.heading != blank -%}
-        <h2 class="cdl-pairings__title">{{ section.settings.heading }}</h2>
-      {%- endif -%}
-      {%- if section.settings.intro != blank -%}
-        <div class="cdl-pairings__intro">{{ section.settings.intro }}</div>
-      {%- endif -%}
-    </div>
+  <div class="cdl-pair-carousel" data-total="{{ total }}">
+    <div class="cdl-pair-track">
 
-    <ul class="cdl-pairings__list">
-      {%- for block in section.blocks -%}
-        <li class="cdl-pairing" {{ block.shopify_attributes }}>
-          <span class="cdl-pairing__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
-          <div class="cdl-pairing__text">
-            {%- if block.settings.dish != blank -%}
-              <h3 class="cdl-pairing__dish">{{ block.settings.dish }}</h3>
-            {%- endif -%}
-            {%- if block.settings.note != blank -%}
-              <p class="cdl-pairing__note">{{ block.settings.note }}</p>
+      {%- if has_intro -%}
+        <article class="cdl-pair-slide cdl-pair-slide--img-left is-active" data-index="0">
+          <div class="cdl-pair-media">
+            {%- if section.settings.intro_image != blank -%}
+              <img src="{{ section.settings.intro_image | image_url: width: 1400 }}" alt="{{ section.settings.heading | escape }}" width="1400" height="1400" loading="eager">
+            {%- else -%}
+              <div class="cdl-pair-media__fallback" aria-hidden="true"><span>DL</span></div>
             {%- endif -%}
           </div>
-        </li>
+          <div class="cdl-pair-text">
+            {%- if section.settings.subheading != blank -%}
+              <p class="cdl-pair-eyebrow">{{ section.settings.subheading }}</p>
+            {%- endif -%}
+            {%- if section.settings.heading != blank -%}
+              <h2 class="cdl-pair-heading">{{ section.settings.heading }}</h2>
+            {%- endif -%}
+            {%- if section.settings.intro != blank -%}
+              <div class="cdl-pair-body">{{ section.settings.intro }}</div>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign sidx = forloop.index0
+          if has_intro
+            assign sidx = sidx | plus: 1
+          endif
+          assign mod = sidx | modulo: 2
+          if mod == 0
+            assign side = 'left'
+          else
+            assign side = 'right'
+          endif
+        -%}
+        <article
+          class="cdl-pair-slide cdl-pair-slide--img-{{ side }}{% if sidx == 0 %} is-active{% endif %}"
+          data-index="{{ sidx }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="cdl-pair-media">
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 1400 }}" alt="{{ block.settings.dish | escape }}" width="1400" height="1400" loading="lazy">
+            {%- else -%}
+              <div class="cdl-pair-media__fallback" aria-hidden="true"><span>DL</span></div>
+            {%- endif -%}
+          </div>
+          <div class="cdl-pair-text">
+            {%- if block.settings.dish != blank -%}
+              <h3 class="cdl-pair-heading">{{ block.settings.dish }}</h3>
+            {%- endif -%}
+            {%- if block.settings.note != blank -%}
+              <p class="cdl-pair-body">{{ block.settings.note }}</p>
+            {%- endif -%}
+          </div>
+        </article>
       {%- endfor -%}
-    </ul>
+    </div>
+
+    {%- if total > 1 -%}
+      <button class="cdl-pair-arrow cdl-pair-arrow--prev" aria-label="Previous pairing">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M14 4l-7 7 7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="cdl-pair-arrow cdl-pair-arrow--next" aria-label="Next pairing">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M8 4l7 7-7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <div class="cdl-pair-nav" role="tablist" aria-label="Pairing navigation">
+        {%- for i in (1..total) -%}
+          <button class="cdl-pair-num{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}" aria-label="Go to pairing {{ forloop.index }}">{{ forloop.index }}</button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
 {% stylesheet %}
   .cdl-pairings { --cdl-gold: #b08d57; }
 
-  .cdl-pairings__head { text-align: center; max-width: 46rem; margin: 0 auto clamp(2.5rem, 5vw, 4rem); }
+  .cdl-pair-carousel { position: relative; }
 
-  .cdl-eyebrow {
-    display: flex; align-items: center; justify-content: center; gap: 0.9rem;
-    margin: 0 0 1rem;
+  .cdl-pair-track { display: grid; }
+
+  .cdl-pair-slide {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+
+  .cdl-pair-slide.is-active { opacity: 1; visibility: visible; }
+
+  .cdl-pair-slide--img-right .cdl-pair-media { order: 2; }
+
+  .cdl-pair-media {
+    position: relative;
+    min-height: clamp(420px, 56vh, 640px);
+    overflow: hidden;
+    background: linear-gradient(150deg, #f6efe2 0%, #e7d8bf 100%);
+  }
+
+  .cdl-pair-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  .cdl-pair-media__fallback {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    border: 1px solid rgba(176, 141, 87, 0.3);
+  }
+  .cdl-pair-media__fallback span {
+    font-family: var(--font-heading--family);
+    font-size: clamp(3rem, 6vw, 5rem);
+    color: rgba(154, 118, 66, 0.4);
+    letter-spacing: 0.1em;
+  }
+
+  .cdl-pair-text {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 6vw, 5.5rem);
+  }
+
+  .cdl-pair-eyebrow {
     font-family: var(--font-subheading--family);
-    font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--cdl-gold);
+    font-size: 0.72rem; letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--cdl-gold); margin: 0 0 1rem;
   }
-  .cdl-eyebrow .cdl-rule { width: 34px; height: 1px; background: linear-gradient(90deg, transparent, var(--cdl-gold)); }
-  .cdl-eyebrow .cdl-rule:last-child { background: linear-gradient(90deg, var(--cdl-gold), transparent); }
 
-  .cdl-pairings__title {
+  .cdl-pair-heading {
     font-family: var(--font-heading--family);
-    font-weight: 400;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    margin: 0 0 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: clamp(1.05rem, 1.6vw, 1.4rem);
+    line-height: 1.25;
+    margin: 0 0 1.4rem;
     color: var(--color-foreground-heading, var(--color-foreground));
   }
 
-  .cdl-pairings__intro {
-    font-size: 1rem; line-height: 1.8;
-    color: var(--color-foreground); opacity: 0.82;
+  .cdl-pair-body {
+    font-family: var(--font-body--family);
+    font-size: clamp(1rem, 1.1vw, 1.12rem);
+    line-height: 1.85;
+    max-width: 34rem;
+    margin: 0;
+    color: var(--color-foreground);
+    opacity: 0.86;
   }
 
-  .cdl-pairings__list {
-    list-style: none; margin: 0; padding: 0;
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: clamp(1.5rem, 3vw, 2.75rem) clamp(2rem, 5vw, 4rem);
+  .cdl-pair-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    z-index: 5; display: flex; align-items: center; justify-content: center;
+    background: transparent; border: none; cursor: pointer;
+    color: var(--color-foreground); padding: 0.75rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  .cdl-pair-arrow:hover { color: var(--cdl-gold); }
+  .cdl-pair-arrow--prev { left: clamp(2px, 1vw, 14px); }
+  .cdl-pair-arrow--next { right: clamp(2px, 1vw, 14px); }
+
+  .cdl-pair-nav {
+    display: flex; gap: 0.9rem; justify-content: center; align-items: center;
+    margin-top: 1.75rem;
   }
 
-  .cdl-pairing {
-    display: flex; gap: 1.25rem; align-items: flex-start;
-    padding-bottom: clamp(1.5rem, 3vw, 2.75rem);
-    border-bottom: 1px solid rgba(176, 141, 87, 0.22);
+  .cdl-pair-num {
+    background: transparent; border: none; cursor: pointer;
+    font-family: var(--font-body--family);
+    font-size: 0.9rem; color: var(--cdl-gold); opacity: 0.6;
+    padding: 0.25rem 0.2rem; line-height: 1;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
   }
-
-  .cdl-pairing__num {
-    font-family: var(--font-heading--family);
-    font-size: 1.5rem; line-height: 1; color: var(--cdl-gold); flex-shrink: 0;
-    opacity: 0.85;
-  }
-
-  .cdl-pairing__dish {
-    font-family: var(--font-heading--family);
-    font-weight: 400; font-size: 1.35rem; margin: 0 0 0.4rem;
-    color: var(--color-foreground-heading, var(--color-foreground));
-  }
-
-  .cdl-pairing__note {
-    font-size: 0.92rem; line-height: 1.65;
-    color: var(--color-foreground); opacity: 0.74; margin: 0;
+  .cdl-pair-num:hover { opacity: 1; }
+  .cdl-pair-num.is-active {
+    opacity: 1;
+    color: var(--color-foreground);
+    border-bottom-color: var(--cdl-gold);
   }
 
   @media screen and (max-width: 749px) {
-    .cdl-pairings__list { grid-template-columns: 1fr; gap: 1.5rem; }
+    .cdl-pair-slide { grid-template-columns: 1fr; }
+    .cdl-pair-slide--img-right .cdl-pair-media { order: 0; }
+    .cdl-pair-media { min-height: clamp(280px, 50vw, 420px); }
+    .cdl-pair-arrow { top: clamp(140px, 25vw, 210px); }
   }
 {% endstylesheet %}
+
+<script>
+  (function () {
+    var root = document.getElementById('cdl-pairings-{{ section.id }}');
+    if (!root) return;
+    var slides = root.querySelectorAll('.cdl-pair-slide');
+    var nums = root.querySelectorAll('.cdl-pair-num');
+    var prev = root.querySelector('.cdl-pair-arrow--prev');
+    var next = root.querySelector('.cdl-pair-arrow--next');
+    var total = slides.length;
+    var current = 0;
+    if (total < 2) return;
+
+    function go(i) {
+      current = (i + total) % total;
+      slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === current); });
+      nums.forEach(function (n, idx) { n.classList.toggle('is-active', idx === current); });
+    }
+
+    if (prev) prev.addEventListener('click', function () { go(current - 1); });
+    if (next) next.addEventListener('click', function () { go(current + 1); });
+    nums.forEach(function (n) {
+      n.addEventListener('click', function () { go(parseInt(n.dataset.slide, 10)); });
+    });
+  })();
+</script>
 
 {% schema %}
 {
@@ -108,9 +246,10 @@
   "tag": "section",
   "class": "section-cdl-pairings",
   "settings": [
-    { "type": "text", "id": "subheading", "label": "Eyebrow", "default": "Pairing Suggestions" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Perfect Pairings" },
-    { "type": "richtext", "id": "intro", "label": "Intro" },
+    { "type": "text", "id": "subheading", "label": "Intro eyebrow", "default": "Pairing Suggestions" },
+    { "type": "text", "id": "heading", "label": "Intro heading (slide 1)", "default": "Pairing Suggestions" },
+    { "type": "richtext", "id": "intro", "label": "Intro text (slide 1)" },
+    { "type": "image_picker", "id": "intro_image", "label": "Intro image (slide 1)" },
     {
       "type": "select",
       "id": "section_width",
@@ -119,18 +258,19 @@
         { "value": "page-width", "label": "Page" },
         { "value": "full-width", "label": "Full" }
       ],
-      "default": "page-width"
+      "default": "full-width"
     },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "header", "content": "Padding" },
-    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 88 },
-    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 88 }
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 }
   ],
   "blocks": [
     {
       "type": "pairing",
       "name": "Pairing",
       "settings": [
+        { "type": "image_picker", "id": "image", "label": "Food image" },
         { "type": "text", "id": "dish", "label": "Dish", "default": "Lobster with citrus beurre blanc" },
         { "type": "textarea", "id": "note", "label": "Why it works", "default": "The richness of the lobster meets the wine's bright acidity for a clean, elegant finish." }
       ]
