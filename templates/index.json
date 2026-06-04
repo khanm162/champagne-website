@@ -162,11 +162,21 @@
         "explore_link": "",
         "columns": 2,
         "panel_height": 560,
-        "pin_amount": 40,
         "show_panel_text": false,
         "color_scheme": "",
         "padding-block-start": 96,
         "padding-block-end": 40
+      }
+    },
+    "custom_liquid_MJrkBL": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "<section class=\"parallax-grid\">\n  \n  <div class=\"parallax-item\">\n    <div class=\"parallax-bg bg1\"></div>\n  </div>\n\n  <div class=\"parallax-item\">\n    <div class=\"parallax-bg bg2\"></div>\n  </div>\n\n</section>\n\n<section class=\"content\">\n  <h2>Scroll Content</h2>\n  <p>\n    Add your content here so you can see the parallax effect while scrolling.\n  </p>\n</section>",
+        "color_scheme": "",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     }
   },
@@ -174,6 +184,7 @@
     "custom_slideshow_xWjBQp",
     "cuvees",
     "story",
-    "champagne_story_Bj9iy3"
+    "champagne_story_Bj9iy3",
+    "custom_liquid_MJrkBL"
   ]
 }
