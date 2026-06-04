@@ -29,24 +29,15 @@ Matches pf-treatment-categories design system
         aria-hidden="{% unless forloop.first %}true{% endunless %}"
       >
 
-        <!-- Background image with Ken Burns -->
+        <!-- Fixed parallax background (no overlay) -->
         {% if block.settings.slide_image != blank %}
-          <div class="pf-slide-bg {% cycle 'kb-left', 'kb-right' %}">
-            <img
-              src="{{ block.settings.slide_image | image_url: width: 2400 }}"
-              alt="{{ block.settings.heading }}"
-              {% unless forloop.first %}loading="lazy"{% endunless %}
-              draggable="false"
-            >
-          </div>
+          <div
+            class="pf-slide-bg"
+            style="background-image: url('{{ block.settings.slide_image | image_url: width: 2400 }}');"
+          ></div>
         {% else %}
           <div class="pf-slide-bg pf-slide-bg--empty"></div>
         {% endif %}
-
-        <!-- Layered overlays -->
-        <div class="pf-ss-overlay-dark" aria-hidden="true"></div>
-        <div class="pf-ss-overlay-vignette" aria-hidden="true"></div>
-        <div class="pf-ss-overlay-bottom" aria-hidden="true"></div>
 
         <!-- Content -->
         <div class="pf-ss-content page-width">
@@ -227,64 +218,21 @@ Matches pf-treatment-categories design system
   pointer-events: auto;
 }
 
-/* ─── Background / Ken Burns ─── */
+/* ─── Fixed parallax background (no overlay) ─── */
 .pf-slide-bg {
   position: absolute;
   inset: 0;
   overflow: hidden;
-}
-
-.pf-slide-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform-origin: center center;
-  will-change: transform;
-}
-
-/* Ken Burns: only runs while slide is active */
-.pf-slide.is-active .pf-slide-bg.kb-left img {
-  animation: kb-left var(--pf-speed) linear forwards;
-}
-
-.pf-slide.is-active .pf-slide-bg.kb-right img {
-  animation: kb-right var(--pf-speed) linear forwards;
-}
-
-@keyframes kb-left {
-  from { transform: scale(1.0) translate(0, 0); }
-  to   { transform: scale(1.12) translate(-24px, -8px); }
-}
-
-@keyframes kb-right {
-  from { transform: scale(1.0) translate(0, 0); }
-  to   { transform: scale(1.12) translate(24px, -8px); }
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /* fixed attachment = the image stays put while content scrolls over it.
+     Scoped to this section by the .pf-slideshow overflow:hidden clip. */
+  background-attachment: fixed;
 }
 
 .pf-slide-bg--empty {
   background: linear-gradient(135deg, #2a2520, #1a1714);
-}
-
-/* ─── Overlays ─── */
-.pf-ss-overlay-dark {
-  position: absolute;
-  inset: 0;
-  background: rgba(14, 12, 9, 0.42);
-}
-
-.pf-ss-overlay-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, transparent 30%, rgba(10, 8, 6, 0.55) 100%);
-}
-
-.pf-ss-overlay-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 280px;
-  background: linear-gradient(to top, rgba(10, 8, 6, 0.65), transparent);
 }
 
 /* ─── Content ─── */
@@ -299,6 +247,8 @@ Matches pf-treatment-categories design system
 
 .pf-ss-content-inner {
   max-width: 720px;
+  /* gentle shadow keeps any text readable now that the overlay is removed */
+  text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35);
 }
 
 /* Eyebrow */
@@ -619,6 +569,11 @@ Matches pf-treatment-categories design system
   .pf-slideshow {
     height: 88vh;
     min-height: 560px;
+  }
+
+  /* iOS Safari ignores background-attachment: fixed — fall back gracefully */
+  .pf-slide-bg {
+    background-attachment: scroll;
   }
 
   .pf-ss-content {
