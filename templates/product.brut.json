@@ -328,7 +328,7 @@
       }
     },
     "story": {
-      "type": "champagne-story",
+      "type": "champagne-chapters",
       "blocks": {
         "vintage": {
           "type": "chapter",

@@ -1,0 +1,240 @@
+{% comment %}
+  Champagne de Lossy — Heritage / Story
+  Alternating image + text narrative blocks. Image is optional; an
+  elegant gold-on-cream panel renders in its place when absent.
+{% endcomment %}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="cdl-chapters color-{{ section.settings.color_scheme }} section section--{{ section.settings.section_width }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  <div class="page-width">
+    {%- if section.settings.subheading != blank or section.settings.heading != blank -%}
+      <header class="cdl-chapters__head">
+        {%- if section.settings.subheading != blank -%}
+          <p class="cdl-chap-eyebrow">
+            <span class="cdl-chap-rule"></span>{{ section.settings.subheading }}<span class="cdl-chap-rule"></span>
+          </p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="cdl-chapters__title">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    <div class="cdl-chapters__rows">
+      {%- for block in section.blocks -%}
+        <div class="cdl-chapters__row cdl-chapters__row--{{ block.settings.media_position }}" {{ block.shopify_attributes }}>
+          <div class="cdl-chapters__media">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 1200 }}"
+                alt="{{ block.settings.heading | escape }}"
+                loading="lazy"
+                width="1200"
+                height="1500"
+              >
+            {%- else -%}
+              <div class="cdl-chapters__media-fallback" aria-hidden="true">
+                <span class="cdl-chap-monogram">DL</span>
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="cdl-chapters__text">
+            {%- if block.settings.eyebrow != blank -%}
+              <p class="cdl-chapters__eyebrow">{{ block.settings.eyebrow }}</p>
+            {%- endif -%}
+            {%- if block.settings.heading != blank -%}
+              <h3 class="cdl-chapters__row-title">{{ block.settings.heading }}</h3>
+            {%- endif -%}
+            {%- if block.settings.body != blank -%}
+              <div class="cdl-chapters__body">{{ block.settings.body }}</div>
+            {%- endif -%}
+            {%- if block.settings.button_text != blank -%}
+              <a class="cdl-chapters__link" href="{{ block.settings.button_link | default: '#' }}">
+                {{ block.settings.button_text }}
+                <svg width="22" height="8" viewBox="0 0 22 8" fill="none" aria-hidden="true">
+                  <path d="M0 4h20M20 4l-4-3.5M20 4l-4 3.5" stroke="currentColor" stroke-width="1"/>
+                </svg>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .cdl-chapters { --cdl-gold: #b08d57;padding-bottom:50px; }
+
+  .cdl-chapters__head { text-align: center; margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+
+  .cdl-chap-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+    margin: 0 0 1rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cdl-gold);
+  }
+
+  .cdl-chap-eyebrow .cdl-chap-rule { width: 34px; height: 1px; background: linear-gradient(90deg, transparent, var(--cdl-gold)); }
+  .cdl-chap-eyebrow .cdl-chap-rule:last-child { background: linear-gradient(90deg, var(--cdl-gold), transparent); }
+
+  .cdl-chapters__title {
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1.05;
+    margin: 0;
+    color: var(--color-foreground-heading, var(--color-foreground));
+  }
+
+  .cdl-chapters__rows { display: flex; flex-direction: column; gap: clamp(3rem, 7vw, 7rem); }
+
+  .cdl-chapters__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .cdl-chapters__row--right .cdl-chapters__media { order: 2; }
+
+  .cdl-chapters__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+
+  .cdl-chapters__media img { width: 100%; height: 100%; object-fit: cover; }
+
+  .cdl-chapters__media-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(150deg, #f6efe2 0%, #e7d8bf 100%);
+    border: 1px solid rgba(176, 141, 87, 0.3);
+  }
+
+  .cdl-chap-monogram {
+    font-family: var(--font-heading--family);
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    letter-spacing: 0.1em;
+    color: rgba(154, 118, 66, 0.4);
+  }
+
+  .cdl-chapters__eyebrow {
+    font-family: var(--font-subheading--family);
+    font-size: 0.72rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--cdl-gold);
+    margin: 0 0 1rem;
+  }
+
+  .cdl-chapters__row-title {
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+    line-height: 1.1;
+    margin: 0 0 1.2rem;
+    color: var(--color-foreground-heading, var(--color-foreground));
+  }
+
+  .cdl-chapters__body {
+    font-size: 1.02rem;
+    line-height: 1.85;
+    color: var(--color-foreground);
+    opacity: 0.82;
+  }
+
+  .cdl-chapters__body p { margin: 0 0 1rem; }
+
+  .cdl-chapters__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 1.6rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.74rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--cdl-gold);
+    transition: gap 0.3s ease;
+  }
+
+  .cdl-chapters__link:hover { gap: 1.1rem; }
+
+  @media screen and (max-width: 749px) {
+    .cdl-chapters__row { grid-template-columns: 1fr; gap: 1.75rem; }
+    .cdl-chapters__row--right .cdl-chapters__media { order: 0; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Champagne Chapters",
+  "tag": "section",
+  "class": "section-cdl-chapters",
+  "settings": [
+    { "type": "text", "id": "subheading", "label": "Eyebrow", "default": "Our Heritage" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Living Beautifully Since 1862" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "Story chapter",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "select",
+          "id": "media_position",
+          "label": "Image position",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Where We Belong" },
+        { "type": "richtext", "id": "body", "label": "Body" },
+        { "type": "text", "id": "button_text", "label": "Link label" },
+        { "type": "url", "id": "button_link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Champagne Chapters",
+      "blocks": [
+        { "type": "chapter" },
+        { "type": "chapter", "settings": { "media_position": "right", "heading": "A Gift to Life" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
