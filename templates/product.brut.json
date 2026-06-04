@@ -303,10 +303,11 @@
         "vintage": {
           "type": "chapter",
           "settings": {
+            "image": "shopify://shop_images/champagne-rose-800x958.jpg",
             "media_position": "right",
-            "eyebrow": "T22 · 161st Year Tirage",
-            "heading": "De Lossy Brut",
-            "body": "<p>The 2021 season tested us — spring rain and summer storms meant only the most dedicated growers secured truly superior fruit. Our team crafted twenty-five blends before selecting this one: the bright, freshest fruit of Harvest 2021 layered with the complexity of reserve wines dating back to 2013.</p><p><strong>The Blend:</strong> 29% Chardonnay · 36% Pinot Noir · 35% Meunier</p>",
+            "eyebrow": "On the Nose & Palate",
+            "heading": "Tasting notes",
+            "body": "<p>This Rosé bursts with vibrant red fruits—strawberry, cherry, raspberry—like a summer tart made from just-picked berries. On the palate, Pinot Noir brings depth and structure, Chardonnay adds crisp freshness, and Meunier lifts it all with floral and lightly spiced notes. The nose is a rich bouquet of ripe red fruits, blood orange zest, and a hint of pastry cream. A Rosé of charm and precision—elegant, generous, and beautifully balanced.<br/><br/>This is a Rosé built for pleasure, yet crafted with precision. The wine’s structure and aromatic generosity reflect the careful selection of Grand and Premier Cru grapes, blended with reserve wines that lend both maturity and complexity. A wine of character made to be remembered.</p>",
             "button_text": "",
             "button_link": ""
           }
@@ -314,10 +315,11 @@
         "tasting": {
           "type": "chapter",
           "settings": {
+            "image": "shopify://shop_images/01_food.jpg",
             "media_position": "left",
-            "eyebrow": "On the Nose & Palate",
+            "eyebrow": "",
             "heading": "Tasting Notes",
-            "body": "<p><strong>Palate:</strong> A wealth of fresh red berries — strawberry reminiscent of fine patisserie — lifted by fresh clementine and candied orange peel.</p><p><strong>Nose:</strong> Red currant, blackberries and ripe apricot.</p>",
+            "body": "<p>This Champagne Rosé offers a beautiful balance of Pinot Noir’s richness and the bright, fresh flavors from Chardonnay and Meunier. Given the wine’s aromatic complexity, fruit-forward profile, and elegant richness, here are a few pairing suggestions that would complement its nuances:<br/><br/></p>",
             "button_text": "",
             "button_link": ""
           }
