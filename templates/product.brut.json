@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -16,6 +25,7 @@
             "slideshow_mobile_controls_style": "dots",
             "thumbnail_position": "right",
             "thumbnail_width": 44,
+            "thumbnail_radius": 0,
             "aspect_ratio": "adapt",
             "constrain_to_viewport": true,
             "media_fit": "contain",
@@ -62,7 +72,6 @@
               "type": "group",
               "name": "Header",
               "settings": {
-                "open_in_new_tab": false,
                 "content_direction": "column",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
@@ -90,6 +99,9 @@
                 "overlay_color": "#00000026",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -112,6 +124,32 @@
                     "case": "none",
                     "wrap": "pretty",
                     "color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_mQiwiD": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>T22 – Tirage of the 161ST year</p>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -145,7 +183,11 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["product_title", "product_price"]
+              "block_order": [
+                "product_title",
+                "text_mQiwiD",
+                "product_price"
+              ]
             },
             "divider": {
               "type": "_divider",
@@ -177,6 +219,7 @@
               "settings": {
                 "stacking": true,
                 "show_pickup_availability": false,
+                "gift_card_form": true,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -212,7 +255,7 @@
               "settings": {
                 "text": "{{ closest.product.description }}",
                 "width": "100%",
-                "max_width": "normal",
+                "max_width": "none",
                 "alignment": "left",
                 "type_preset": "rte",
                 "font": "var(--font-primary--family)",
@@ -245,9 +288,10 @@
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": false,
+        "equal_columns": true,
         "limit_details_width": false,
         "gap": 48,
+        "enable_sticky_add_to_cart": true,
         "color_scheme": "",
         "padding-block-start": 0,
         "padding-block-end": 0
@@ -262,7 +306,9 @@
             "media_position": "right",
             "eyebrow": "T22 · 161st Year Tirage",
             "heading": "De Lossy Brut",
-            "body": "<p>The 2021 season tested us — spring rain and summer storms meant only the most dedicated growers secured truly superior fruit. Our team crafted twenty-five blends before selecting this one: the bright, freshest fruit of Harvest 2021 layered with the complexity of reserve wines dating back to 2013.</p><p><strong>The Blend:</strong> 29% Chardonnay · 36% Pinot Noir · 35% Meunier</p>"
+            "body": "<p>The 2021 season tested us — spring rain and summer storms meant only the most dedicated growers secured truly superior fruit. Our team crafted twenty-five blends before selecting this one: the bright, freshest fruit of Harvest 2021 layered with the complexity of reserve wines dating back to 2013.</p><p><strong>The Blend:</strong> 29% Chardonnay · 36% Pinot Noir · 35% Meunier</p>",
+            "button_text": "",
+            "button_link": ""
           }
         },
         "tasting": {
@@ -271,11 +317,16 @@
             "media_position": "left",
             "eyebrow": "On the Nose & Palate",
             "heading": "Tasting Notes",
-            "body": "<p><strong>Palate:</strong> A wealth of fresh red berries — strawberry reminiscent of fine patisserie — lifted by fresh clementine and candied orange peel.</p><p><strong>Nose:</strong> Red currant, blackberries and ripe apricot.</p>"
+            "body": "<p><strong>Palate:</strong> A wealth of fresh red berries — strawberry reminiscent of fine patisserie — lifted by fresh clementine and candied orange peel.</p><p><strong>Nose:</strong> Red currant, blackberries and ripe apricot.</p>",
+            "button_text": "",
+            "button_link": ""
           }
         }
       },
-      "block_order": ["vintage", "tasting"],
+      "block_order": [
+        "vintage",
+        "tasting"
+      ],
       "settings": {
         "subheading": "Discover the Cuvée",
         "heading": "A Toast to Life",
@@ -324,7 +375,13 @@
           }
         }
       },
-      "block_order": ["p1", "p2", "p3", "p4", "p5"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5"
+      ],
       "settings": {
         "subheading": "Pairing Suggestions",
         "heading": "Perfect with the Brut",
@@ -371,7 +428,12 @@
           }
         }
       },
-      "block_order": ["s1", "s2", "s3", "s4"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
       "settings": {
         "heading": "The Art of Serving",
         "section_width": "full-width",
@@ -491,10 +553,16 @@
               "blocks": {}
             }
           },
-          "block_order": ["rec_card_gallery", "rec_card_title", "rec_card_price"]
+          "block_order": [
+            "rec_card_gallery",
+            "rec_card_title",
+            "rec_card_price"
+          ]
         }
       },
-      "block_order": ["rec_header"],
+      "block_order": [
+        "rec_header"
+      ],
       "name": "Product recommendations",
       "settings": {
         "product": "{{ closest.product }}",
@@ -516,5 +584,11 @@
       }
     }
   },
-  "order": ["main", "story", "pairings", "serving", "recommendations"]
+  "order": [
+    "main",
+    "story",
+    "pairings",
+    "serving",
+    "recommendations"
+  ]
 }
