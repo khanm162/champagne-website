@@ -401,56 +401,6 @@
         "padding-block-end": 56
       }
     },
-    "serving": {
-      "type": "champagne-pillars",
-      "blocks": {
-        "s1": {
-          "type": "pillar",
-          "settings": {
-            "icon": "bottle",
-            "title": "Chill to 3°C",
-            "text": "Chill the bottle to 37°F, then serve below 46°F (8°C)."
-          }
-        },
-        "s2": {
-          "type": "pillar",
-          "settings": {
-            "icon": "glass",
-            "title": "Tulip Glass",
-            "text": "Use a tulip-shaped glass to concentrate the aromatics."
-          }
-        },
-        "s3": {
-          "type": "pillar",
-          "settings": {
-            "icon": "leaf",
-            "title": "Pour Gradually",
-            "text": "Pour slowly in stages to preserve the fine, persistent mousse."
-          }
-        },
-        "s4": {
-          "type": "pillar",
-          "settings": {
-            "icon": "age",
-            "title": "21+ Only",
-            "text": "You must be of legal drinking age to purchase."
-          }
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3",
-        "s4"
-      ],
-      "settings": {
-        "heading": "The Art of Serving",
-        "section_width": "full-width",
-        "color_scheme": "scheme-2",
-        "padding-block-start": 72,
-        "padding-block-end": 72
-      }
-    },
     "recommendations": {
       "type": "product-recommendations",
       "blocks": {
@@ -591,13 +541,39 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "custom_slideshow_eqJfYn": {
+      "type": "custom-slideshow",
+      "blocks": {
+        "slide_tzWpVG": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/12_glass_macro.jpg",
+            "subheading": "",
+            "heading": "The art of pleasing",
+            "description": "",
+            "button_text": "",
+            "button_link": "",
+            "button_text_2": "",
+            "button_link_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_tzWpVG"
+      ],
+      "name": "Custom Slideshow",
+      "settings": {
+        "autoplay": true,
+        "slide_speed": 6
+      }
     }
   },
   "order": [
     "main",
     "story",
     "pairings",
-    "serving",
+    "custom_slideshow_eqJfYn",
     "recommendations"
   ]
 }
