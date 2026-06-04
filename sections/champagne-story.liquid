@@ -1,14 +1,15 @@
 {% comment %}
-  Champagne de Lossy — Heritage intro + parallax image band
-  Centered intro (heading + paragraph + Explore link), followed by a
-  full-width row of image panels whose backgrounds are fixed (parallax).
+  Champagne de Lossy — Heritage intro + pinned (sticky) image band
+  Centered intro (heading + paragraph + Explore link), then a row of image
+  panels. Each image is framed (object-fit: cover, no zoom) and PINS in place
+  while you scroll through its track, then scrolls away — a "hold then scroll".
   Block field ids kept (image / heading / body …) for backward compatibility.
 {% endcomment %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   class="cdl-story color-{{ section.settings.color_scheme }} section section--full-width"
-  style="{% render 'spacing-padding', settings: section.settings %} --cols: {{ section.settings.columns }}; --panel-h: {{ section.settings.panel_height }}px;"
+  style="{% render 'spacing-padding', settings: section.settings %} --cols: {{ section.settings.columns }}; --panel-h: {{ section.settings.panel_height }}px; --pin: {{ section.settings.pin_amount }}vh;"
 >
   {%- if section.settings.heading != blank or section.settings.intro != blank -%}
     <div class="page-width cdl-story__intro">
@@ -27,30 +28,29 @@
   {%- if section.blocks.size > 0 -%}
     <div class="cdl-story__panels">
       {%- for block in section.blocks -%}
-        <div
-          class="cdl-story__panel{% if block.settings.image == blank %} cdl-story__panel--empty{% endif %}"
-          {{ block.shopify_attributes }}
-        >
-          {%- if block.settings.image != blank -%}
-            <img
-              class="cdl-story__panel-img"
-              src="{{ block.settings.image | image_url: width: 1800 }}"
-              alt="{{ block.settings.heading | escape }}"
-              loading="lazy"
-              width="1800"
-              height="1200"
-            >
-          {%- else -%}
-            <span class="cdl-monogram" aria-hidden="true">DL</span>
-          {%- endif -%}
+        <div class="cdl-story__panel" {{ block.shopify_attributes }}>
+          <div class="cdl-story__panel-sticky{% if block.settings.image == blank %} cdl-story__panel--empty{% endif %}">
+            {%- if block.settings.image != blank -%}
+              <img
+                class="cdl-story__panel-img"
+                src="{{ block.settings.image | image_url: width: 1800 }}"
+                alt="{{ block.settings.heading | escape }}"
+                loading="lazy"
+                width="1800"
+                height="1200"
+              >
+            {%- else -%}
+              <span class="cdl-monogram" aria-hidden="true">DL</span>
+            {%- endif -%}
 
-          {%- if section.settings.show_panel_text and block.settings.heading != blank -%}
-            <div class="cdl-story__panel-text">
-              {%- if block.settings.eyebrow != blank -%}<p class="cdl-story__panel-eyebrow">{{ block.settings.eyebrow }}</p>{%- endif -%}
-              <h3 class="cdl-story__panel-title">{{ block.settings.heading }}</h3>
-              {%- if block.settings.body != blank -%}<div class="cdl-story__panel-body">{{ block.settings.body }}</div>{%- endif -%}
-            </div>
-          {%- endif -%}
+            {%- if section.settings.show_panel_text and block.settings.heading != blank -%}
+              <div class="cdl-story__panel-text">
+                {%- if block.settings.eyebrow != blank -%}<p class="cdl-story__panel-eyebrow">{{ block.settings.eyebrow }}</p>{%- endif -%}
+                <h3 class="cdl-story__panel-title">{{ block.settings.heading }}</h3>
+                {%- if block.settings.body != blank -%}<div class="cdl-story__panel-body">{{ block.settings.body }}</div>{%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
         </div>
       {%- endfor -%}
     </div>
@@ -106,35 +106,40 @@
   }
   .cdl-story__explore:hover { opacity: 0.75; letter-spacing: 0.3em; }
 
-  /* ── Parallax image band ── */
+  /* ── Pinned image band ── */
   .cdl-story__panels {
     display: grid;
     grid-template-columns: repeat(var(--cols, 2), 1fr);
     gap: 10px;
     padding-inline: clamp(10px, 2vw, 28px);
+    align-items: start;
   }
 
+  /* The track: taller than the visible image so the image can pin, then release */
   .cdl-story__panel {
     position: relative;
-    min-height: var(--panel-h, 560px);
+    min-height: calc(var(--panel-h, 560px) + var(--pin, 40vh));
+  }
+
+  /* The visible, framed image — pins while the track scrolls past */
+  .cdl-story__panel-sticky {
+    position: sticky;
+    top: max(0px, calc((100vh - var(--panel-h, 560px)) / 2));
+    height: var(--panel-h, 560px);
     overflow: hidden;
     display: grid;
     place-items: center;
   }
 
   .cdl-story__panel-img {
-    position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* overflow gives the parallax room to drift without showing gaps */
-    transform: scale(1.16);
-    will-change: transform;
+    display: block;
   }
 
   .cdl-story__panel--empty {
-    background-image: linear-gradient(150deg, #f6efe2 0%, #e7d8bf 100%);
+    background: linear-gradient(150deg, #f6efe2 0%, #e7d8bf 100%);
     border: 1px solid rgba(176, 141, 87, 0.3);
   }
 
@@ -145,22 +150,19 @@
     color: rgba(154, 118, 66, 0.4);
   }
 
-  /* Optional caption overlay on a panel */
+  /* Optional caption overlay */
   .cdl-story__panel-text {
-    position: relative;
-    z-index: 2;
-    max-width: 30rem;
-    padding: 2rem;
-    text-align: center;
-    color: #fff;
-    text-shadow: 0 1px 24px rgba(0, 0, 0, 0.4);
-  }
-  .cdl-story__panel:not(.cdl-story__panel--empty):has(.cdl-story__panel-text)::after {
-    content: "";
     position: absolute;
     inset: 0;
+    z-index: 2;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+    padding: 2rem;
+    color: #fff;
+    text-shadow: 0 1px 24px rgba(0, 0, 0, 0.4);
     background: rgba(20, 16, 12, 0.28);
-    z-index: 1;
   }
   .cdl-story__panel-eyebrow {
     font-family: var(--font-subheading--family);
@@ -176,54 +178,25 @@
   .cdl-story__panel-body {
     font-family: var(--font-body--family);
     font-size: 0.95rem; line-height: 1.7; color: #fff; opacity: 0.92;
+    max-width: 30rem;
   }
 
+  /* On small screens (and reduced motion) don't pin — just stack framed images */
   @media (prefers-reduced-motion: reduce) {
-    .cdl-story__panel-img { transform: none; }
+    .cdl-story__panel { min-height: 0; }
+    .cdl-story__panel-sticky { position: static; top: auto; }
   }
 
   @media screen and (max-width: 749px) {
     .cdl-story__panels { grid-template-columns: 1fr; }
-    .cdl-story__panel { min-height: clamp(300px, 60vw, 440px); }
+    .cdl-story__panel { min-height: 0; }
+    .cdl-story__panel-sticky {
+      position: static;
+      top: auto;
+      height: clamp(300px, 60vw, 440px);
+    }
   }
 {% endstylesheet %}
-
-<script>
-  (function () {
-    if (window.__cdlStoryParallax) return;
-    window.__cdlStoryParallax = true;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    function update() {
-      var vh = window.innerHeight;
-      var imgs = document.querySelectorAll('.cdl-story__panel-img');
-      for (var i = 0; i < imgs.length; i++) {
-        var img = imgs[i];
-        var rect = img.parentElement.getBoundingClientRect();
-        if (rect.bottom < -50 || rect.top > vh + 50) continue;
-        // progress ≈ -0.5 (panel below) → 0.5 (panel above), 0 at viewport center
-        var progress = (rect.top + rect.height / 2 - vh / 2) / vh;
-        // scale(1.16) gives ~8% overflow each side; cap the drift just under that
-        var maxShift = rect.height * 0.07;
-        var y = -progress * rect.height * 0.16;
-        if (y > maxShift) y = maxShift;
-        if (y < -maxShift) y = -maxShift;
-        img.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0) scale(1.16)';
-      }
-    }
-
-    var ticking = false;
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () { update(); ticking = false; });
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    window.addEventListener('load', update);
-    update();
-  })();
-</script>
 
 {% schema %}
 {
@@ -238,6 +211,7 @@
     { "type": "header", "content": "Image band" },
     { "type": "range", "id": "columns", "label": "Images per row", "min": 1, "max": 3, "step": 1, "default": 2 },
     { "type": "range", "id": "panel_height", "label": "Image height", "min": 300, "max": 820, "step": 10, "unit": "px", "default": 560 },
+    { "type": "range", "id": "pin_amount", "label": "Hold distance (how long the image stays pinned)", "min": 0, "max": 90, "step": 5, "unit": "vh", "default": 40 },
     { "type": "checkbox", "id": "show_panel_text", "label": "Show caption text over images", "default": false },
     { "type": "header", "content": "Appearance" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
