@@ -9,6 +9,32 @@
  */
 {
   "sections": {
+    "custom_slideshow_xWjBQp": {
+      "type": "custom-slideshow",
+      "blocks": {
+        "slide_dJeWgC": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/delossy-champagne.jpg",
+            "subheading": "",
+            "heading": "",
+            "description": "",
+            "button_text": "",
+            "button_link": "",
+            "button_text_2": "",
+            "button_link_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_dJeWgC"
+      ],
+      "name": "Custom Slideshow",
+      "settings": {
+        "autoplay": true,
+        "slide_speed": 6
+      }
+    },
     "story": {
       "type": "champagne-story",
       "blocks": {
@@ -164,20 +190,12 @@
         "padding-block-start": 72,
         "padding-block-end": 72
       }
-    },
-    "custom_slideshow_xWjBQp": {
-      "type": "custom-slideshow",
-      "name": "Custom Slideshow",
-      "settings": {
-        "autoplay": true,
-        "slide_speed": 6
-      }
     }
   },
   "order": [
+    "custom_slideshow_xWjBQp",
     "story",
     "cuvees",
-    "pillars",
-    "custom_slideshow_xWjBQp"
+    "pillars"
   ]
 }

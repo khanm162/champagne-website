@@ -12,6 +12,7 @@
     "logo": "shopify://shop_images/delossy.svg",
     "logo_height": 58,
     "logo_height_mobile": 57,
+    "favicon": "shopify://shop_images/delossy.svg",
     "type_body_font": "lato_n4",
     "type_subheading_font": "lato_n4",
     "type_heading_font": "cormorant_n4",
