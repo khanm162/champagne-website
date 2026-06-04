@@ -145,62 +145,11 @@
         "padding-block-start": 160,
         "padding-block-end": 100
       }
-    },
-    "pillars": {
-      "type": "champagne-pillars",
-      "blocks": {
-        "p1": {
-          "type": "pillar",
-          "settings": {
-            "icon": "vineyard",
-            "title": "Estate Grown",
-            "text": "Vines tended by hand in the Montagne de Reims."
-          }
-        },
-        "p2": {
-          "type": "pillar",
-          "settings": {
-            "icon": "bottle",
-            "title": "Hand-Crafted",
-            "text": "Vinified and aged patiently in our own cellars."
-          }
-        },
-        "p3": {
-          "type": "pillar",
-          "settings": {
-            "icon": "ship",
-            "title": "Shipped in the USA",
-            "text": "Fulfilled by our licensed US shipping partner."
-          }
-        },
-        "p4": {
-          "type": "pillar",
-          "settings": {
-            "icon": "age",
-            "title": "21+ Only",
-            "text": "You must be of legal drinking age to purchase."
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4"
-      ],
-      "settings": {
-        "heading": "",
-        "section_width": "full-width",
-        "color_scheme": "scheme-2",
-        "padding-block-start": 72,
-        "padding-block-end": 72
-      }
     }
   },
   "order": [
     "custom_slideshow_xWjBQp",
     "cuvees",
-    "story",
-    "pillars"
+    "story"
   ]
 }
