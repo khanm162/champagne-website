@@ -133,14 +133,18 @@
     overflow: hidden;
   }
 
-  /* Full, framed image (object-fit: cover) — shows the whole scene, no zoom */
+  /* Full, framed image (object-fit: cover) — shows the whole scene.
+     Sized to the panel width with a small vertical overshoot so the
+     parallax has room to drift (same idea as the reference's jarallax). */
   .cdl-story__panel-img {
     position: absolute;
-    inset: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    top: -6%;
+    height: 112%;
     object-fit: cover;
     display: block;
+    will-change: transform;
   }
 
   .cdl-story__panel > .cdl-story__panel-text,
@@ -196,8 +200,47 @@
   @media screen and (max-width: 749px) {
     .cdl-story__panels { grid-template-columns: 1fr; }
     .cdl-story__panel { min-height: clamp(320px, 70vw, 520px); }
+    /* no parallax on mobile — show the full framed image with no overshoot */
+    .cdl-story__panel-img { top: 0; height: 100%; }
   }
 {% endstylesheet %}
+
+<script>
+  (function () {
+    if (window.__cdlStoryParallax) return;
+    window.__cdlStoryParallax = true;
+    // Skip parallax on small screens (matches the reference: parallax-mobile=false)
+    if (window.matchMedia && window.matchMedia('(max-width: 749px)').matches) return;
+
+    function update() {
+      var vh = window.innerHeight;
+      var imgs = document.querySelectorAll('.cdl-story__panel-img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        var rect = img.parentElement.getBoundingClientRect();
+        if (rect.bottom < -100 || rect.top > vh + 100) continue;
+        // -1 (panel below viewport) → +1 (panel above), 0 at viewport center
+        var progress = (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2);
+        var maxShift = rect.height * 0.05;            // stay within the 6% overshoot
+        var y = -progress * maxShift;
+        if (y > maxShift) y = maxShift;
+        if (y < -maxShift) y = -maxShift;
+        img.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+      }
+    }
+
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { update(); ticking = false; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('load', update);
+    update();
+  })();
+</script>
 
 {% schema %}
 {
