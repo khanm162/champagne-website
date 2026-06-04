@@ -1,0 +1,61 @@
+{% comment %}
+  Champagne de Lossy — custom heading font (Lyyra Extended)
+
+  Headings use Lyyra Extended; body + buttons keep the theme's default font.
+
+  TO ACTIVATE: upload these web font files to the theme's "assets" folder
+  (Online Store → Themes → ⋯ → Edit code → Assets → Add a new asset):
+    - lyyra-extended-regular.woff2   (weight 400)
+    - lyyra-extended-medium.woff2    (weight 500)
+    - lyyra-extended-semibold.woff2  (weight 600)
+  Until they are uploaded, headings gracefully fall back to the theme serif.
+{% endcomment %}
+
+{%- liquid
+  assign has_regular = false
+  assign has_medium = false
+  assign has_semibold = false
+-%}
+
+<style>
+  @font-face {
+    font-family: "Lyyra Extended";
+    src: url("{{ 'lyyra-extended-regular.woff2' | asset_url }}") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Lyyra Extended";
+    src: url("{{ 'lyyra-extended-medium.woff2' | asset_url }}") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Lyyra Extended";
+    src: url("{{ 'lyyra-extended-semibold.woff2' | asset_url }}") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Make Lyyra Extended the heading family everywhere; keep current serif as fallback */
+  :root,
+  body {
+    --font-heading--family: "Lyyra Extended", {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+  }
+
+  /* Headings + all custom champagne section titles */
+  h1, h2, h3, h4, h5, h6,
+  .pf-ss-heading,
+  .pf-cinematic-heading,
+  .cdl-cuvees__title,
+  .cdl-cuvee__name,
+  .cdl-story__title,
+  .cdl-story__row-title,
+  .cdl-pillars__title,
+  .cdl-pillar__title {
+    font-family: "Lyyra Extended", {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }} !important;
+  }
+</style>

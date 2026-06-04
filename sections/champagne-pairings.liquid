@@ -1,0 +1,151 @@
+{% comment %}
+  Champagne de Lossy — Pairing suggestions
+  Editorial list of food pairings (dish + why it works).
+{% endcomment %}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="cdl-pairings color-{{ section.settings.color_scheme }} section section--{{ section.settings.section_width }}"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  <div class="page-width">
+    <div class="cdl-pairings__head">
+      {%- if section.settings.subheading != blank -%}
+        <p class="cdl-eyebrow">
+          <span class="cdl-rule"></span>{{ section.settings.subheading }}<span class="cdl-rule"></span>
+        </p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="cdl-pairings__title">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.intro != blank -%}
+        <div class="cdl-pairings__intro">{{ section.settings.intro }}</div>
+      {%- endif -%}
+    </div>
+
+    <ul class="cdl-pairings__list">
+      {%- for block in section.blocks -%}
+        <li class="cdl-pairing" {{ block.shopify_attributes }}>
+          <span class="cdl-pairing__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <div class="cdl-pairing__text">
+            {%- if block.settings.dish != blank -%}
+              <h3 class="cdl-pairing__dish">{{ block.settings.dish }}</h3>
+            {%- endif -%}
+            {%- if block.settings.note != blank -%}
+              <p class="cdl-pairing__note">{{ block.settings.note }}</p>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% stylesheet %}
+  .cdl-pairings { --cdl-gold: #b08d57; }
+
+  .cdl-pairings__head { text-align: center; max-width: 46rem; margin: 0 auto clamp(2.5rem, 5vw, 4rem); }
+
+  .cdl-eyebrow {
+    display: flex; align-items: center; justify-content: center; gap: 0.9rem;
+    margin: 0 0 1rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--cdl-gold);
+  }
+  .cdl-eyebrow .cdl-rule { width: 34px; height: 1px; background: linear-gradient(90deg, transparent, var(--cdl-gold)); }
+  .cdl-eyebrow .cdl-rule:last-child { background: linear-gradient(90deg, var(--cdl-gold), transparent); }
+
+  .cdl-pairings__title {
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    margin: 0 0 1rem;
+    color: var(--color-foreground-heading, var(--color-foreground));
+  }
+
+  .cdl-pairings__intro {
+    font-size: 1rem; line-height: 1.8;
+    color: var(--color-foreground); opacity: 0.82;
+  }
+
+  .cdl-pairings__list {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.75rem) clamp(2rem, 5vw, 4rem);
+  }
+
+  .cdl-pairing {
+    display: flex; gap: 1.25rem; align-items: flex-start;
+    padding-bottom: clamp(1.5rem, 3vw, 2.75rem);
+    border-bottom: 1px solid rgba(176, 141, 87, 0.22);
+  }
+
+  .cdl-pairing__num {
+    font-family: var(--font-heading--family);
+    font-size: 1.5rem; line-height: 1; color: var(--cdl-gold); flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  .cdl-pairing__dish {
+    font-family: var(--font-heading--family);
+    font-weight: 400; font-size: 1.35rem; margin: 0 0 0.4rem;
+    color: var(--color-foreground-heading, var(--color-foreground));
+  }
+
+  .cdl-pairing__note {
+    font-size: 0.92rem; line-height: 1.65;
+    color: var(--color-foreground); opacity: 0.74; margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .cdl-pairings__list { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Champagne Pairings",
+  "tag": "section",
+  "class": "section-cdl-pairings",
+  "settings": [
+    { "type": "text", "id": "subheading", "label": "Eyebrow", "default": "Pairing Suggestions" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Perfect Pairings" },
+    { "type": "richtext", "id": "intro", "label": "Intro" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 88 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 88 }
+  ],
+  "blocks": [
+    {
+      "type": "pairing",
+      "name": "Pairing",
+      "settings": [
+        { "type": "text", "id": "dish", "label": "Dish", "default": "Lobster with citrus beurre blanc" },
+        { "type": "textarea", "id": "note", "label": "Why it works", "default": "The richness of the lobster meets the wine's bright acidity for a clean, elegant finish." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Champagne Pairings",
+      "blocks": [
+        { "type": "pairing" },
+        { "type": "pairing" },
+        { "type": "pairing" },
+        { "type": "pairing" }
+      ]
+    }
+  ]
+}
+{% endschema %}
