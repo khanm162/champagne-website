@@ -2,9 +2,13 @@
   Champagne de Lossy — page-load intro (mirrors the reference site)
   Adds a `page-loaded` class to <html> on window load (with a fallback), then:
     - the hero curtain slides up (see custom-slideshow.liquid)
-    - the header slides down from the top + fades in
-  Sticky-safe (the header animation leaves no residual transform). Skipped for
-  reduced-motion users; not rendered in the theme editor (see theme.liquid).
+    - the header slides down from the top + fades in (after the hero reveals)
+
+  NOTE: when the header is sticky the theme sets `#header-group { display: contents }`,
+  which has no box — so transforms/animations on #header-group do nothing. We
+  animate its children (`#header-group > *`) instead. No fill-mode "forwards",
+  so the sticky header keeps working afterwards. Skipped for reduced-motion;
+  not rendered in the theme editor (see theme.liquid).
 {% endcomment %}
 
 <script>
@@ -20,12 +24,12 @@
 <style>
   @media (prefers-reduced-motion: no-preference) {
     /* keep the header hidden until the page has loaded */
-    html:not(.page-loaded) #header-group { opacity: 0; }
+    html:not(.page-loaded) #header-group > * { opacity: 0; }
 
-    /* then slide it down from the top + fade in (no fill-mode forwards, so the
-       sticky header keeps working afterwards) */
-    html.page-loaded #header-group {
-      animation: cdlHeaderDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.7s backwards;
+    /* then slide each header row down from the top + fade in, after the hero
+       curtain has lifted (~1.1s). No fill-mode forwards -> sticky-safe. */
+    html.page-loaded #header-group > * {
+      animation: cdlHeaderDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.1s backwards;
     }
 
     @keyframes cdlHeaderDown {
