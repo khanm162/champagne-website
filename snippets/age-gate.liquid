@@ -1,0 +1,140 @@
+{% comment %}
+  Champagne de Lossy — 21+ age gate
+  Covers the site on first visit until the visitor confirms they are of legal
+  drinking age. Choice is remembered in localStorage. Rendered from theme.liquid
+  and skipped in the theme editor (request.design_mode).
+{% endcomment %}
+
+<div class="cdl-agegate" id="cdl-agegate" role="dialog" aria-modal="true" aria-label="Age verification">
+  <div class="cdl-agegate__inner">
+    <span class="cdl-agegate__flourish" aria-hidden="true">✦</span>
+    <p class="cdl-agegate__eyebrow">Champagne de Lossy</p>
+
+    <div class="cdl-agegate__ask">
+      <h1 class="cdl-agegate__title">Are you 21 or older?</h1>
+      <p class="cdl-agegate__text">You must be of legal drinking age to enter this site.</p>
+      <div class="cdl-agegate__buttons">
+        <button type="button" class="cdl-agegate__btn cdl-agegate__btn--solid" data-cdl-age-yes>Yes, I am 21 or older</button>
+        <button type="button" class="cdl-agegate__btn cdl-agegate__btn--ghost" data-cdl-age-no>No</button>
+      </div>
+      <p class="cdl-agegate__legal">Please enjoy Champagne de Lossy responsibly.</p>
+    </div>
+
+    <div class="cdl-agegate__deny" hidden>
+      <h1 class="cdl-agegate__title">Come back soon</h1>
+      <p class="cdl-agegate__text">We're sorry, but you must be of legal drinking age (21+) to enter.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  html.cdl-age-locked,
+  html.cdl-age-locked body { overflow: hidden; height: 100%; }
+
+  .cdl-agegate {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000; /* above the header and everything else */
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+    text-align: center;
+    background: var(--color-background, #f5f1eb);
+    --cdl-gold: #b08d57;
+    --cdl-gold-deep: #9a7642;
+    transition: opacity 0.5s ease;
+  }
+  .cdl-agegate.is-leaving { opacity: 0; pointer-events: none; }
+
+  .cdl-agegate__inner {
+    max-width: 34rem;
+    margin: 0 auto;
+    animation: cdlAgeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes cdlAgeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .cdl-agegate__flourish { display: block; color: var(--cdl-gold); font-size: 1.5rem; margin-bottom: 0.75rem; }
+
+  .cdl-agegate__eyebrow {
+    font-family: var(--font-subheading--family);
+    font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--cdl-gold); margin: 0 0 1.75rem;
+  }
+
+  .cdl-agegate__title {
+    font-family: var(--font-heading--family);
+    font-weight: 400; text-transform: uppercase;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.1; letter-spacing: 0.02em;
+    margin: 0 0 1rem;
+    color: var(--color-foreground-heading, var(--color-foreground));
+  }
+
+  .cdl-agegate__text {
+    font-family: var(--font-body--family);
+    font-size: 1rem; line-height: 1.7;
+    color: var(--color-foreground); opacity: 0.82;
+    margin: 0 auto 2rem; max-width: 26rem;
+  }
+
+  .cdl-agegate__buttons {
+    display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap;
+  }
+
+  .cdl-agegate__btn {
+    font-family: var(--font-subheading--family);
+    font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 0.95rem 2rem; cursor: pointer; border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .cdl-agegate__btn--solid {
+    background: var(--cdl-gold); border: 1px solid var(--cdl-gold); color: #fff;
+  }
+  .cdl-agegate__btn--solid:hover { background: var(--cdl-gold-deep); border-color: var(--cdl-gold-deep); }
+  .cdl-agegate__btn--ghost {
+    background: transparent; border: 1px solid rgba(26, 22, 17, 0.3);
+    color: var(--color-foreground);
+  }
+  .cdl-agegate__btn--ghost:hover { border-color: var(--color-foreground); }
+
+  .cdl-agegate__legal {
+    font-family: var(--font-body--family);
+    font-size: 0.78rem; color: var(--color-foreground); opacity: 0.6;
+    margin: 2rem 0 0;
+  }
+</style>
+
+<script>
+  (function () {
+    var KEY = 'cdl_age_verified_v1';
+    var gate = document.getElementById('cdl-agegate');
+    if (!gate) return;
+    var d = document.documentElement;
+
+    var verified = false;
+    try { verified = localStorage.getItem(KEY) === 'true'; } catch (e) {}
+
+    if (verified) {
+      // already confirmed — remove before it paints
+      if (gate.parentNode) gate.parentNode.removeChild(gate);
+      return;
+    }
+
+    d.classList.add('cdl-age-locked');
+
+    var yes = gate.querySelector('[data-cdl-age-yes]');
+    var no = gate.querySelector('[data-cdl-age-no]');
+
+    if (yes) yes.addEventListener('click', function () {
+      try { localStorage.setItem(KEY, 'true'); } catch (e) {}
+      d.classList.remove('cdl-age-locked');
+      gate.classList.add('is-leaving');
+      setTimeout(function () { if (gate.parentNode) gate.parentNode.removeChild(gate); }, 500);
+    });
+
+    if (no) no.addEventListener('click', function () {
+      gate.querySelector('.cdl-agegate__ask').hidden = true;
+      gate.querySelector('.cdl-agegate__deny').hidden = false;
+    });
+  })();
+</script>
