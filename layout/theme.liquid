@@ -141,5 +141,108 @@
     {% endif %}
 
     {% render 'shipping-disclaimer' %}
+
+    {%- comment %} ===== Required Shipping/Product Disclaimer Gate ===== {% endcomment -%}
+<style>
+  .disclaimer-agreement{width:100%;margin:12px 0;box-sizing:border-box}
+  .disclaimer-agreement__label{display:block;width:100%;cursor:pointer;font-size:13px;line-height:1.4;color:inherit;text-align:left}
+  .disclaimer-agreement__checkbox{width:1.1em;height:1.1em;margin-right:8px;vertical-align:-0.15em;cursor:pointer}
+  .disclaimer-agreement__link{display:inline;padding:0;border:none;background:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer}
+  .disclaimer-agreement__link:hover{opacity:.7}
+  .disclaimer-locked{opacity:.45!important;pointer-events:none!important;cursor:not-allowed!important}
+  .disclaimer-modal-overlay{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.5)}
+  .disclaimer-modal-overlay[hidden]{display:none}
+  .disclaimer-modal{background:#fff;color:#111;max-width:440px;width:100%;border-radius:12px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.35);max-height:85vh;overflow-y:auto;font-family:inherit}
+  .disclaimer-modal__header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .disclaimer-modal__title{font-size:1.15rem;font-weight:600;margin:0}
+  .disclaimer-modal__close{flex-shrink:0;border:none;background:none;font-size:1.4rem;line-height:1;cursor:pointer;color:inherit;padding:0}
+  .disclaimer-modal__body{font-size:15px;line-height:1.55;margin-bottom:20px}
+  .disclaimer-modal__ok{width:100%;padding:14px;border:none;border-radius:10px;background:#111;color:#fff;font-size:1rem;font-weight:500;cursor:pointer}
+</style>
+<script>
+(function(){
+  if (window.__disclaimerGateInit) return;
+  window.__disclaimerGateInit = true;
+
+  /* ================= EDIT YOUR TEXT HERE ================= */
+  var LABEL_HTML  = 'I acknowledge and agree to the <button type="button" class="js-disclaimer-link disclaimer-agreement__link">Shipping &amp; Product Disclaimer</button>.';
+  var MODAL_TITLE = 'Shipping & Product Disclaimer';
+  var MODAL_BODY  = 'By checking this box, I acknowledge that someone 21 years or older will be available to sign for this package. The courier will make up to three delivery attempts at which point it will be returned to the shipper. If I will not be available to sign for the package, I will request for the package to be held at a designated UPS pick-up location. If the package is returned, I forfeit the cost of shipping for the refund received. (If you will not be home, it is recommended to have your order shipped to your place of business.)';
+  /* ====================================================== */
+
+  var BTN_SELECTOR = '#checkout, button[name="checkout"], .cart__checkout-button';
+  var STORAGE_KEY  = 'disclaimer_agreed';
+
+  function isAgreed(){ try{return sessionStorage.getItem(STORAGE_KEY)==='1';}catch(e){return false;} }
+  function setAgreed(v){ try{ v?sessionStorage.setItem(STORAGE_KEY,'1'):sessionStorage.removeItem(STORAGE_KEY);}catch(e){} }
+
+  function ensureCheckbox(btn){
+    var host = btn.closest('.cart__ctas') || btn;
+    var prev = host.previousElementSibling;
+    if (prev && prev.classList && prev.classList.contains('disclaimer-agreement')) return prev.querySelector('.js-disclaimer-agree');
+    var div = document.createElement('div');
+    div.className = 'disclaimer-agreement';
+    div.innerHTML = '<label class="disclaimer-agreement__label"><input type="checkbox" class="js-disclaimer-agree disclaimer-agreement__checkbox"><span class="disclaimer-agreement__text">'+LABEL_HTML+'</span></label>';
+    host.parentNode.insertBefore(div, host);
+    return div.querySelector('.js-disclaimer-agree');
+  }
+
+  function enforce(){
+    var agreed = isAgreed();
+    document.querySelectorAll(BTN_SELECTOR).forEach(function(btn){
+      var cb = ensureCheckbox(btn);
+      if (cb && cb.checked !== agreed) cb.checked = agreed;
+      if (agreed){
+        if (btn.classList.contains('is-disclaimer-disabled')){
+          btn.classList.remove('is-disclaimer-disabled','disclaimer-locked');
+          btn.removeAttribute('disabled'); btn.removeAttribute('aria-disabled');
+        }
+      } else {
+        btn.classList.add('is-disclaimer-disabled');
+        btn.setAttribute('disabled','disabled');
+        if (btn.tagName === 'A'){ btn.classList.add('disclaimer-locked'); btn.setAttribute('aria-disabled','true'); }
+      }
+      /* also lock PayPal / Shop Pay / accelerated buttons */
+      var ctas = btn.closest('.cart__ctas') || btn.parentElement;
+      var accel = ctas && ctas.querySelector('.additional-checkout-buttons, [data-shopify="dynamic-checkout-cart"], shopify-accelerated-checkout, shopify-accelerated-checkout-cart');
+      if (accel) accel.classList.toggle('disclaimer-locked', !agreed);
+    });
+  }
+
+  var overlay;
+  function openModal(){
+    if (!overlay){
+      overlay = document.createElement('div');
+      overlay.className = 'disclaimer-modal-overlay';
+      overlay.setAttribute('hidden',''); overlay.setAttribute('role','dialog'); overlay.setAttribute('aria-modal','true');
+      overlay.innerHTML = '<div class="disclaimer-modal"><div class="disclaimer-modal__header"><h2 class="disclaimer-modal__title"></h2><button type="button" class="disclaimer-modal__close" aria-label="Close">&times;</button></div><p class="disclaimer-modal__body"></p><button type="button" class="disclaimer-modal__ok">Got it</button></div>';
+      overlay.querySelector('.disclaimer-modal__title').textContent = MODAL_TITLE;
+      overlay.querySelector('.disclaimer-modal__body').textContent = MODAL_BODY;
+      document.body.appendChild(overlay);
+      var close = function(){ overlay.setAttribute('hidden',''); };
+      overlay.querySelector('.disclaimer-modal__close').addEventListener('click', close);
+      overlay.querySelector('.disclaimer-modal__ok').addEventListener('click', close);
+      overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+    }
+    overlay.removeAttribute('hidden');
+  }
+
+  document.addEventListener('change', function(e){
+    if (e.target && e.target.classList && e.target.classList.contains('js-disclaimer-agree')){ setAgreed(e.target.checked); enforce(); }
+  });
+  document.addEventListener('click', function(e){
+    var link = e.target.closest && e.target.closest('.js-disclaimer-link');
+    if (link){ e.preventDefault(); e.stopPropagation(); openModal(); }
+  });
+
+  var scheduled = false;
+  function schedule(){ if(scheduled) return; scheduled=true; requestAnimationFrame(function(){ scheduled=false; enforce(); }); }
+  new MutationObserver(schedule).observe(document.documentElement, {childList:true, subtree:true});
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', enforce);
+  else enforce();
+})();
+</script>
   </body>
 </html>
